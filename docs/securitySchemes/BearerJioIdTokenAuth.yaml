@@ -1,0 +1,5 @@
+type: apiKey
+in: header
+name: Authorization
+description: 'Supply the "IdToken" in the Authorization header as follows: "Bearer <id_token>".
+  This must be a valid, non-expired IdToekn by a verified user account.'

@@ -1,0 +1,45 @@
+get:
+  tags: 
+    - JIO
+  summary: Search for contacts
+  description: Search for contacts in the Jio Api
+  security:
+    - BearerIndusnetIdTokenAuth: []
+  parameters:
+    - name: access_token
+      in: query
+      required: true
+      schema:
+        type: string
+        example: 1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270
+        minLength: 1
+    - name: phone
+      in: query
+      required: true
+      schema:
+        type: string
+        example: 7741937895
+        minLength: 1
+    - name: limit
+      in: query
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Returns a list of contacts
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - data
+              - count
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+              count:
+                type: integer
+                example: 1

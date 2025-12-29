@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/api-backend
+    overwrite: true
+hooks:
+  # BeforeInstall:
+  #   - location: scripts/cleanup.sh
+  #     timeout: 300
+  #     runas: ubuntu
+  AfterInstall:
+    - location: scripts/install.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/start_server.sh
+      timeout: 60
+      runas: ubuntu
+  # ApplicationStop:
+  #   - location: scripts/stop_server.sh
+  #     timeout: 300
+  #     runas: root
+
+# https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html

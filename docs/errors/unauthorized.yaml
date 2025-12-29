@@ -1,0 +1,19 @@
+description: Indicates that the request requires user authentication information. The client MAY repeat the request with a suitable Authorization header field
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - type
+        - httpStatus
+        - description
+      properties:
+        type: 
+          type: string
+        httpStatus:
+          type: integer
+          example: 401
+        message:
+          type: string
+        additionalInfo:
+          type: object

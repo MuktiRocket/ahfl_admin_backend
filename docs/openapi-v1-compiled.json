@@ -1,0 +1,1002 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Jio Middleware API",
+    "description": "How to talk with Jio Api",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Ghulam Moinuddin",
+      "email": "ghulam.moinuddin@intglobal.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://jiofinapi-dev.indusnettechnologies.com/api/v1",
+      "description": "Local PC development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "General",
+      "description": "General endpoint to check the health status of the system"
+    },
+    {
+      "name": "JIO",
+      "description": "Generate token and handle Zoho Desk tickets"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "summary": "Returns the system health status and server time",
+        "responses": {
+          "200": {
+            "description": "Returns the system health status and server time",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthInfo"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/jio/app-url": {
+      "get": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Retrieve Application Access URL for Jio Team",
+        "description": "Generates and returns the application access URL corresponding to the provided key. This URL should be shared with the Jio team and must be accessed using a valid Authorization header containing the Jio ID token.",
+        "security": [
+          {
+            "BearerJioIdTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns app URL",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "url"
+                  ],
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "example": "https://jiofin-dev.indusnettechnologies.com?key=084a79f8-979e-4838-9276-9889148c2ec3",
+                      "description": "The application URL for the given key"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jio/validate-key": {
+      "post": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Validate the key and get the mobile number",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "key"
+                ],
+                "properties": {
+                  "key": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mobile": {
+                      "type": "string",
+                      "description": "Mobile registered with the key",
+                      "example": "9876543210"
+                    },
+                    "apiKey": {
+                      "type": "string",
+                      "description": "API key for accessing the Jio service",
+                      "example": "guest-1234567890abcdefaasdfasdfNKDFYMDYSLSKDF"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid or missing mobile number"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/jio/generate": {
+      "post": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Returns a token with a validity",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "grant_type",
+                  "client_id",
+                  "client_secret",
+                  "redirect_uri",
+                  "refresh_token"
+                ],
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "example": "refresh_token",
+                    "minLength": 1
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "example": "1000.3MN0VZE6J8UO4CFX4BFJDTP6O75ONC",
+                    "minLength": 1
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "example": "9f79db737559697efe72eceefa52562d2187bbb3d9",
+                    "minLength": 1
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "example": "https://accounts.zohoportal.com/extoauth/clientcallback",
+                    "minLength": 1
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "example": "1000.c08e830ebaa504ffbac19266daa8f5c0.40cedf9cd3244f5f0f3348d0d3e34016",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a token with a validity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "access_token",
+                    "scope",
+                    "api_domain",
+                    "token_type",
+                    "expires_in"
+                  ],
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "scope": {
+                      "type": "string"
+                    },
+                    "api_domain": {
+                      "type": "string"
+                    },
+                    "token_type": {
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "type": "integer",
+                      "example": 3600
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/jio/contacts/search": {
+      "get": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Search for contacts",
+        "description": "Search for contacts in the Jio Api",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": 7741937895,
+              "minLength": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "count"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jio/create/ticket/contact": {
+      "post": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Create a ticket for a contact",
+        "description": "Create a ticket for a contact in the Jio Api",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "access_token",
+                  "contactId",
+                  "subject",
+                  "departmentId",
+                  "channel",
+                  "description",
+                  "status",
+                  "phone"
+                ],
+                "properties": {
+                  "access_token": {
+                    "type": "string",
+                    "example": "1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270",
+                    "minLength": 1
+                  },
+                  "contactId": {
+                    "type": "string",
+                    "example": 145376000029020380,
+                    "minLength": 1
+                  },
+                  "subject": {
+                    "type": "string",
+                    "example": "customer query check",
+                    "minLength": 1
+                  },
+                  "departmentId": {
+                    "type": "string",
+                    "example": 145376000000010780,
+                    "description": "Default in wecare for now. Same department ID to be passed."
+                  },
+                  "channel": {
+                    "type": "string",
+                    "example": "JFSApp",
+                    "enum": [
+                      "JFLWeb",
+                      "JFSApp"
+                    ],
+                    "description": "Mandatory field"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "test abcd",
+                    "maxLength": 32000
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "New",
+                    "enum": [
+                      "New"
+                    ]
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": 7741937895
+                  },
+                  "cf": {
+                    "type": "object",
+                    "properties": {
+                      "cf_delivery_status": {
+                        "type": "string",
+                        "example": "yes",
+                        "description": "This is to be sent for UAT sandbox"
+                      },
+                      "cf_tagcode": {
+                        "type": "string",
+                        "example": 6134
+                      },
+                      "cf_tag_code": {
+                        "type": "string",
+                        "example": 6134
+                      },
+                      "cf_loan_account_number": {
+                        "type": "string",
+                        "example": "abcd"
+                      },
+                      "cf_customer_id": {
+                        "type": "string",
+                        "example": 111100402
+                      },
+                      "cf_customer_query": {
+                        "type": "string",
+                        "example": "test abcd"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jio/contacts/create-contact": {
+      "post": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Creates Contact if Contact ID does not exist while creating Ticket",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "access_token",
+                  "contact",
+                  "subject",
+                  "departmentId",
+                  "channel",
+                  "description"
+                ],
+                "properties": {
+                  "access_token": {
+                    "type": "string",
+                    "example": "1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270",
+                    "minLength": 1
+                  },
+                  "contact": {
+                    "type": "object",
+                    "required": [
+                      "lastName",
+                      "phone",
+                      "email"
+                    ],
+                    "properties": {
+                      "lastName": {
+                        "type": "string",
+                        "example": "Agale"
+                      },
+                      "phone": {
+                        "type": "string",
+                        "example": "8010932699"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "krishnaaa@gmail.com"
+                      }
+                    }
+                  },
+                  "subject": {
+                    "type": "string",
+                    "example": "test ticket creation - create contact ID"
+                  },
+                  "departmentId": {
+                    "type": "string",
+                    "example": 145376000000010780
+                  },
+                  "channel": {
+                    "type": "string",
+                    "example": "JFS App"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "test description"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "7741937895"
+                  },
+                  "cf": {
+                    "type": "object",
+                    "properties": {
+                      "cf_is_customer": {
+                        "type": "string",
+                        "example": "yes"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "count"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/jio/contacts/search-ticket-by-phone": {
+      "get": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Search Ticket by Phone Number",
+        "description": "Search Ticket by Phone Number in the Jio API",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": 7741937895,
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "count"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jio/contacts/get-ticket-by-id": {
+      "get": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Get Ticket by ID",
+        "description": "Get Ticket by ID in the Jio API",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": 145376000029041180,
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "count"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jio/contacts/get-threads": {
+      "get": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Get Threads by ticket ID",
+        "description": "Get Threads by ticket ID in the Jio API",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": 145376000029041340,
+              "minLength": 1
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": 0,
+              "minLength": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": 200,
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "count"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jio/contacts/create-comments": {
+      "post": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Creates Comments for Ticket ID",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "access_token",
+                  "isPublic",
+                  "contentType",
+                  "content",
+                  "ticketId"
+                ],
+                "properties": {
+                  "access_token": {
+                    "type": "string",
+                    "example": "1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270",
+                    "minLength": 1
+                  },
+                  "isPublic": {
+                    "type": "string"
+                  },
+                  "contentType": {
+                    "type": "string",
+                    "example": "html"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "repoen the ticket test"
+                  },
+                  "ticketId": {
+                    "type": "string",
+                    "example": 145376000029074180
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a list of contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "count"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/jio/loan/getLimit": {
+      "post": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Lona Limit",
+        "description": "Lona Limit in the Jio Api",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "phone",
+                  "customerId",
+                  "product"
+                ],
+                "properties": {
+                  "product": {
+                    "type": "string",
+                    "example": "LAS"
+                  },
+                  "customerId": {
+                    "type": "string",
+                    "example": 10000172
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": 7741937895
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a Limit of loan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jio/lead/leadInfo": {
+      "get": {
+        "tags": [
+          "JIO"
+        ],
+        "summary": "Lona Limit",
+        "description": "Lead Info in the Jio Api",
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a Lead Info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthInfo": {
+        "type": "object",
+        "required": [
+          "message",
+          "serverTime"
+        ],
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Server is running"
+          },
+          "serverTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Health": {
+        "$ref": "#/components/schemas/HealthInfo"
+      }
+    },
+    "securitySchemes": {
+      "BearerIndusnetIdTokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Supply the \"IdToken\" in the Authorization header as follows: \"Bearer <id_token>\"."
+      },
+      "BearerJioIdTokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Supply the \"IdToken\" in the Authorization header as follows: \"Bearer <id_token>\". This must be a valid, non-expired IdToekn by a verified user account."
+      }
+    },
+    "responses": {
+      "internalServerError": {
+        "description": "An internal error happened. check the server logs.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "type",
+                "httpStatus",
+                "description"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "internalServerError"
+                },
+                "httpStatus": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

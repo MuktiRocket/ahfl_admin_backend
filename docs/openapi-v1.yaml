@@ -1,0 +1,62 @@
+# Author: Ghulam Moinuddin
+# Date: 2025-01-08
+# Description: Documentation done targeting OAS 3.x.x, Doc Url is https://swagger.io/specification/ example can be find here https://petstore.swagger.io/?_gl=1*r6pir5*_gcl_au*MTE0NDM4NzQzOS4xNzM2MjMwMTg1
+
+openapi: 3.0.0
+info:
+  title: Jio Middleware API
+  description: How to talk with Jio Api
+  version: 1.0.0
+
+  contact:
+    name: Ghulam Moinuddin
+    email: ghulam.moinuddin@intglobal.com
+
+servers:
+  - url: https://jiofinapi-dev.indusnettechnologies.com/api/v1
+    description: Local PC development server
+
+components:
+  schemas:
+    $ref: ./schemas/_index.yaml
+  securitySchemes:
+    $ref: ./securitySchemes/_index.yaml
+
+tags:
+  - name: General
+    description: General endpoint to check the health status of the system
+  - name: JIO
+    description: Generate token and handle Zoho Desk tickets
+
+paths:
+  /health:
+    $ref: ./paths/health.yaml
+
+  # /jio/access-token:
+  #   $ref: ./paths/jio_access_token.yaml
+
+  /jio/app-url:
+    $ref: ./paths/jio_app_url.yaml
+  /jio/validate-key:
+    $ref: ./paths/jio_validate_key.yaml
+
+  /jio/generate:
+    $ref: ./paths/jio_generate.yaml
+  /jio/contacts/search:
+    $ref: ./paths/jio_contacts_search.yaml
+  /jio/create/ticket/contact:
+    $ref: ./paths/jio_create_ticket_contact.yaml
+  /jio/contacts/create-contact:
+    $ref: ./paths/jio_create_contact.yaml
+  /jio/contacts/search-ticket-by-phone:
+    $ref: ./paths/jio_search_ticket_by_phone.yaml
+  /jio/contacts/get-ticket-by-id:
+    $ref: ./paths/jio_get_ticket_by_id.yaml
+  /jio/contacts/get-threads:
+    $ref: ./paths/jio_get_threads.yaml
+  /jio/contacts/create-comments:
+    $ref: ./paths/jio_create_comments.yaml
+  /jio/loan/getLimit:
+    $ref: ./paths/jio_loan_getLimit.yaml
+  /jio/lead/leadInfo:
+    $ref: ./paths/jio_lead_leadInfo.yaml

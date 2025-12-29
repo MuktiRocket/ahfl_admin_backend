@@ -1,0 +1,13 @@
+get:
+  tags: 
+    - General
+  summary: Returns the system health status and server time
+  responses:
+    "200":
+      description: Returns the system health status and server time
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/HealthInfo.yaml
+    "500":
+      $ref: ../errors/internalServerError.yaml

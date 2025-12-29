@@ -1,0 +1,54 @@
+get:
+  tags:
+    - JIO
+  summary: Get Threads by ticket ID
+  description: Get Threads by ticket ID in the Jio API
+  security:
+    - BearerIndusnetIdTokenAuth: []
+  parameters:
+    - name: access_token
+      in: query
+      required: true
+      schema:
+        type: string
+        example: 1000.1256858c41a6d486f8873860f4607bea.22ac72d332a009add01cc1a2d387b270
+        minLength: 1
+    - name: id
+      in: query
+      required: true
+      schema:
+        type: string
+        example: 145376000029041350
+        minLength: 1
+    - name: from
+      in: query
+      required: true
+      schema:
+        type: string
+        example: 0
+        minLength: 1
+    - name: limit
+      in: query
+      required: true
+      schema:
+        type: string
+        example: 200
+        minLength: 1
+  responses:
+    "200":
+      description: Returns a list of contacts
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - data
+              - count
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+              count:
+                type: integer
+                example: 1

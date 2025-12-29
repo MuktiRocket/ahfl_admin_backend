@@ -1,0 +1,34 @@
+post:
+  tags:
+    - JIO
+  summary: Lona Limit
+  description: Lona Limit in the Jio Api
+  security:
+    - BearerIndusnetIdTokenAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - phone
+            - customerId
+            - product
+          properties:
+            product:
+              type: string
+              example: LAS
+            customerId:
+              type: string
+              example: 10000172
+            phone:
+              type: string
+              example: 7741937895
+  responses:
+    "200":
+      description: Returns a Limit of loan
+      content:
+        application/json:
+          schema:
+            type: object

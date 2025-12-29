@@ -1,0 +1,19 @@
+description: The server can not find the requested resource.
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - type
+        - httpStatus
+        - description
+      properties:
+        type: 
+          type: string
+        httpStatus:
+          type: integer
+          example: 404
+        message:
+          type: string
+        additionalInfo:
+          type: object

@@ -1,0 +1,20 @@
+description: Bad Request or You need to supply the correct parameters as specified in the API docs, please check `additionalInfo` for more details
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - type
+        - httpStatus
+        - description
+      properties:
+        type: 
+          type: string
+          example: invalidParameters
+        httpStatus:
+          type: integer
+          example: 400
+        message:
+          type: string
+        additionalInfo:
+          type: object

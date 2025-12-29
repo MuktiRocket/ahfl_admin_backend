@@ -1,0 +1,46 @@
+{
+  "name": "hhfl-customer-app-backend",
+  "version": "1.0.0",
+  "description": "HHFL Backend to manage the customer facing frontends (Mobie app & admin panel) applications",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "node .",
+    "devl": "ts-node-dev --env-file .env.local --watch ./docs/openapi-v1-compiled.json index.ts",
+    "lint": "eslint .",
+    "tsc": "tsc -p tsconfig.prod.json",
+    "ca": "npm run compile-api-json",
+    "compile-api-json": "redocly bundle ./docs/openapi-v1.yaml -o ./docs/openapi-v1-compiled.json"
+  },
+  "author": "Ghulam Moinuddin",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-openapi-validate": "^0.6.1",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "mysql2": "^3.16.0",
+    "reflect-metadata": "^0.2.2",
+    "swagger-ui-express": "^5.0.1",
+    "typeorm": "^0.3.20",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@redocly/cli": "^1.34.3",
+    "@types/cors": "^2.8.17",
+    "@types/crypto-js": "^4.2.2",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/swagger-ui-express": "^4.1.7",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.1"
+  }
+}

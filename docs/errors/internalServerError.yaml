@@ -1,0 +1,18 @@
+description: An internal error happened. check the server logs.
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - type
+        - httpStatus
+        - description
+      properties:
+        type: 
+          type: string
+          example: internalServerError
+        httpStatus:
+          type: integer
+          example: 500
+        message:
+          type: string
