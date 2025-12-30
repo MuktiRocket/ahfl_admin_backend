@@ -2,14 +2,15 @@ import { Server as HTTPServer } from "http";
 import { Express, Router } from 'express';
 import { Api, ApiVersion } from "./api";
 import { HealthController } from "./health/health-controller";
-import { JioController } from "./jio/jio-controller";
+import { AdminAuthController } from "./admin-auth/admin-auth-controller";
+// import { JioController } from "./jio/jio-controller";
 
 export class ApiV1 extends Api {
 
     constructor() {
         super();
         this.controllers.push(new HealthController());
-        this.controllers.push(new JioController());
+        this.controllers.push(new AdminAuthController());
     }
 
     public addRoutes(app: Express): void {

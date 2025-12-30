@@ -11,4 +11,11 @@ export class Utils {
         }
         return code;
     }
+    public static getCurrentISTDateTime(): Date {
+        const currentDateTime = new Date();
+        const utcTime = currentDateTime.getTime();
+        const istOffset = 5.5 * 60 * 60 * 1000;
+        const istDateTime = new Date(utcTime + istOffset);
+        return istDateTime;
+    }
 }
