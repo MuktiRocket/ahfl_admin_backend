@@ -16,8 +16,6 @@ export class AdminAuthService extends UserQueries {
 
         const code = !isEmailService ? FIXED_CODE : Utils.randomCodeGenerator();
         await this.updateUser(user, { tempPassword: code, tempPasswordExpiry });
-        console.log("code===>", code);
-        console.log("tempPasswordExpiry===>", tempPasswordExpiry);
         // if (isEmailService)
         //     await EmailService.sendEmail(user.email!, "forgetPassword", { fullName: `${user.firstName} ${user.lastName}`, code: code });
     }
@@ -33,7 +31,7 @@ export class AdminAuthService extends UserQueries {
     public static async changePassword(user: User, password: string, isEmailService: boolean) {
         const hash = await bcrypt.hash(password, Env.DEFAULT_PASSWORD_SALT);
         await this.updateUser(user, { password: hash });
-        const changeDate = new Date();
+        // const changeDate = new Date();
         // if (isEmailService)
         //     await EmailService.sendEmail(user.email!, "changePassword", { userName: `${user.firstName} ${user.lastName}`, timestamp: Utils.formatDateWithWeekday(changeDate) });
     }

@@ -24,7 +24,7 @@ export class Database {
                     logger.info("Connected to the database successfully");
                     resolve();
                 })
-                .catch((err: any) => {
+                .catch((err: Error) => {
                     if (err instanceof Error) {
                         reject(err);
                     } else {

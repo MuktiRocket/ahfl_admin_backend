@@ -11,11 +11,8 @@ export class CryptoHelper {
     }
 
     public static decryptTextAES(cipherText: string, secretKey: string = Env.CRYPTO_SECRET_KEY): string {
-        console.log("cipherText", cipherText)
-        console.log("secretKey", secretKey)
         const bytes = CryptoJS.AES.decrypt(cipherText, secretKey);
         const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-        console.log("decrypted", decrypted)
         return decrypted;
     }
 

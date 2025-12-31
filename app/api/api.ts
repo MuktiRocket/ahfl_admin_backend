@@ -1,4 +1,3 @@
-import { Server as HTTPServer } from 'http';
 import express, { Application, Express, Router, Request, Response, NextFunction } from 'express';
 import { Controller } from './controller';
 import cors from 'cors';

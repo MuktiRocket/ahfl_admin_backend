@@ -1,4 +1,3 @@
-import { Server as HTTPServer } from "http";
 import { Express, Router } from 'express';
 import { Api, ApiVersion } from "./api";
 import { HealthController } from "./health/health-controller";

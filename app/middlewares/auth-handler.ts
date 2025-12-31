@@ -46,7 +46,7 @@ export class AuthHandler {
             try {
                 const auth = await AuthHandler.validateToken(token);
                 res.locals.auth = auth;
-                const user = await UserQueries.getUser('id',auth.userId);
+                const user = await UserQueries.getUser('id', auth.userId);
 
                 if (!user)
                     next(new ApiError(errorTypes.invalidToken));

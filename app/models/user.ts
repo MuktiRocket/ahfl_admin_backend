@@ -1,7 +1,5 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { Env } from "../utils/env";
-import { Token } from "./token";
 
 export enum Gender {
     MALE = 'male',
@@ -81,8 +79,6 @@ export class User extends BaseEntity {
     // @Column({ type: "boolean", nullable: true, default: false })
     // isTncConsent?: boolean;
 
-
-
     @CreateDateColumn()
     createdAt!: Date;
 
@@ -96,7 +92,7 @@ export class User extends BaseEntity {
 
         this.name = params.name;
         this.email = params.email;
-        this.password = params.password
+        this.password = params.password;
     }
 
     public update(updates: Partial<UpdateUserParams>): [boolean, QueryDeepPartialEntity<User>] {

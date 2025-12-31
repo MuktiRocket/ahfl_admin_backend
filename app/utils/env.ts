@@ -45,7 +45,6 @@ class AppEnv {
     readonly CRYPTO_SECRET_KEY: string = "";
     readonly DEFAULT_PASSWORD_SALT: string = "";
 
-
     loadFromEnv() {
         Object.keys(this).forEach(key => {
             const value = process.env[key];

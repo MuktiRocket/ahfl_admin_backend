@@ -7,7 +7,6 @@ import { Jwt } from '../../utils/jwt';
 import { logger } from '../../utils/logger';
 import { Env } from '../../utils/env';
 import { User } from '../../models/user';
-import { CryptoHelper } from "../../utils/crypto-helper";
 import { TokenService } from '../../services/token-service';
 
 interface ValidateLoginParams {
@@ -49,7 +48,6 @@ export class AdminAuthController extends Controller {
         //     throw new ApiError(errorTypes.invalidCredentials);
 
         const isPasswordValid = await AdminAuthService.validatePassword(password, user.password!);
-        console.log("isPasswordValid==>", isPasswordValid)
         if (!isPasswordValid)
             throw new ApiError(errorTypes.invalidCredentials);
 
@@ -97,10 +95,7 @@ export class AdminAuthController extends Controller {
     }
 
     private async changePassword(req: Request, res: Response): Promise<void> {
-        // console.log("req", req);
-        console.log("res", res.locals)
         const user: User = res.locals.user;
-        console.log("user", user);
         const { password }: ChangePasswordParams = req.body;
         const isEmailService = Env.EMAIL_SERVICE == "true";
         await AdminAuthService.changePassword(user, password, isEmailService);
