@@ -13,7 +13,7 @@ info:
     email: ghulam.moinuddin@intglobal.com
 
 servers:
-  - url: https://jiofinapi-dev.indusnettechnologies.com/api/v1
+  - url: http://localhost:8125/api/v1
     description: Local PC development server
 
 components:
@@ -60,3 +60,13 @@ paths:
     $ref: ./paths/jio_loan_getLimit.yaml
   /jio/lead/leadInfo:
     $ref: ./paths/jio_lead_leadInfo.yaml
+    
+  # Admin user login / password change journey
+  /auth/login:
+    $ref: ./paths/auth-login.yaml
+  /auth/verify-reset-code:
+    $ref: ./paths/auth_verify-reset-code.yaml
+  /auth/forget-password:
+    $ref: ./paths/auth_forget-password.yaml
+  /auth/change-password:
+    $ref: ./paths/auth_change-password.yaml

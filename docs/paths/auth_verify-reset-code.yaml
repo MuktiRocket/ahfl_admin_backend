@@ -1,0 +1,48 @@
+post:
+  tags:
+    - Admin Authentication
+  summary: Verify your self using an authentication code sent in email
+  security:
+    - BearerGuestIdTokenAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - email
+            - resetCode
+          properties:
+            email:
+              type: string
+              format: email
+              minLength: 6
+              maxLength: 30
+            resetCode:
+              type: string
+              pattern: "^[0-9]+$"
+              minLength: 6
+              maxLength: 6
+  responses:
+    "200":
+      description: Returns a valid token on successful validation
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - token
+            properties:
+              token:
+                type: string
+                description: JWT token for authentication
+    "401":
+      description: Unauthorized - Invalid credentials provided.
+      $ref: ../errors/unauthorized.yaml
+    "403":
+      description: Forbidden - User is not authorized to access this resource.
+      $ref: ../errors/forbidden.yaml
+    "500":
+      description: Internal Server Error - An unexpected error occurred.
+      $ref: ../errors/internalServerError.yaml

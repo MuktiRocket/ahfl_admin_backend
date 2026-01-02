@@ -1,0 +1,26 @@
+AdminLoginRequest:
+  type: object
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+      format: email
+      example: admin@example.com
+    password:
+      type: string
+      example: encryptedPasswordString
+
+AdminLoginResponse:
+  type: object
+  properties:
+    token:
+      type: string
+      description: JWT access token
+    refreshToken:
+      type: string
+      description: JWT refresh token
+    user:
+      type: object
+      description: Admin user details

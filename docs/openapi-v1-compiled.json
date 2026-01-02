@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://jiofinapi-dev.indusnettechnologies.com/api/v1",
+      "url": "http://localhost:8125/api/v1",
       "description": "Local PC development server"
     }
   ],
@@ -929,6 +929,267 @@
           }
         }
       }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Admin Auth"
+        ],
+        "summary": "Admin login",
+        "description": "Authenticate admin user and return access & refresh tokens",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/auth/verify-reset-code": {
+      "post": {
+        "tags": [
+          "Admin Authentication"
+        ],
+        "summary": "Verify your self using an authentication code sent in email",
+        "security": [
+          {
+            "BearerGuestIdTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "resetCode"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "minLength": 6,
+                    "maxLength": 30
+                  },
+                  "resetCode": {
+                    "type": "string",
+                    "pattern": "^[0-9]+$",
+                    "minLength": 6,
+                    "maxLength": 6
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a valid token on successful validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "token"
+                  ],
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for authentication"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid credentials provided.",
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - User is not authorized to access this resource.",
+            "$ref": "#/components/responses/forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred.",
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/auth/forget-password": {
+      "post": {
+        "tags": [
+          "Admin Authentication"
+        ],
+        "summary": "Attempt to reset the password if forget",
+        "security": [
+          {
+            "BearerGuestIdTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Admin's email",
+                    "minLength": 6,
+                    "maxLength": 30
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validates the user email and returns success as boolean",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Boolean status true or false"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A request status message",
+                      "example": "A password reset code sent to email."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid credentials provided.",
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - User is not authorized to access this resource.",
+            "$ref": "#/components/responses/forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred.",
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/auth/change-password": {
+      "post": {
+        "tags": [
+          "Admin Authentication"
+        ],
+        "summary": "Change the password of the user after successfully code verification",
+        "security": [
+          {
+            "BearerIdTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "password"
+                ],
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "description": "Password must include at least one lowercase letter, one uppercase letter, one number, and one special character.",
+                    "maxLength": 50,
+                    "example": "Str0ngP@ssw0rd"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validates the temporary code and returns success as boolean",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Boolean status true or false"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A request status message",
+                      "example": "Password changed successfully."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid credentials provided.",
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - User is not authorized to access this resource.",
+            "$ref": "#/components/responses/forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred.",
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -947,6 +1208,78 @@
           "serverTime": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "AdminLoginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "admin@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "encryptedPasswordString"
+          }
+        }
+      },
+      "AdminLoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "JWT access token"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "JWT refresh token"
+          },
+          "user": {
+            "type": "object",
+            "description": "Admin user details"
+          }
+        }
+      },
+      "AdminLoginInfo": {
+        "AdminLoginRequest": {
+          "type": "object",
+          "required": [
+            "email",
+            "password"
+          ],
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email",
+              "example": "admin@example.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "encryptedPasswordString"
+            }
+          }
+        },
+        "AdminLoginResponse": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "JWT access token"
+            },
+            "refreshToken": {
+              "type": "string",
+              "description": "JWT refresh token"
+            },
+            "user": {
+              "type": "object",
+              "description": "Admin user details"
+            }
           }
         }
       },
@@ -991,6 +1324,127 @@
                 },
                 "message": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "badRequest": {
+        "description": "Bad Request or You need to supply the correct parameters as specified in the API docs, please check `additionalInfo` for more details",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "type",
+                "httpStatus",
+                "description"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "invalidParameters"
+                },
+                "httpStatus": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string"
+                },
+                "additionalInfo": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "notFound": {
+        "description": "The server can not find the requested resource.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "type",
+                "httpStatus",
+                "description"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "httpStatus": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string"
+                },
+                "additionalInfo": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "unauthorized": {
+        "description": "Indicates that the request requires user authentication information. The client MAY repeat the request with a suitable Authorization header field",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "type",
+                "httpStatus",
+                "description"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "httpStatus": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string"
+                },
+                "additionalInfo": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "forbidden": {
+        "description": "Unauthorized request. The client does not have access rights to the content.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "type",
+                "httpStatus",
+                "description"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "httpStatus": {
+                  "type": "integer",
+                  "example": 403
+                },
+                "message": {
+                  "type": "string"
+                },
+                "additionalInfo": {
+                  "type": "object"
                 }
               }
             }

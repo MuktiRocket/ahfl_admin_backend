@@ -8,11 +8,11 @@ import { JwtPayload } from "jsonwebtoken";
 
 export interface AuthUser {
     isGuest: boolean,
-    mobile: string;
+    userId: string
 }
 
 export interface UserJwtPayLoad extends JwtPayload {
-    data: string;
+    userId: string;
 }
 
 export class AuthHandler {
@@ -46,12 +46,12 @@ export class AuthHandler {
             try {
                 const auth = await AuthHandler.validateToken(token);
                 res.locals.auth = auth;
-                // const user = await UserQueries.getUser(auth.mobile, 'mobile', userObjectIncludes);
+                const user = await UserQueries.getUser('id', auth.userId);
 
-                // if (!user)
-                //     next(new ApiError(errorTypes.invalidToken));
+                if (!user)
+                    next(new ApiError(errorTypes.invalidToken));
 
-                // res.locals.user = user;
+                res.locals.user = user;
                 return next();
             } catch (error) {
                 logger.error(error);
@@ -71,7 +71,7 @@ export class AuthHandler {
             if (token === Env.GUEST_TOKEN) {
                 const auth: AuthUser = {
                     isGuest: true,
-                    mobile: 'guestUserId'
+                    userId: 'guestUserId'
                 };
                 return resolve(auth);
             } else {
@@ -85,12 +85,12 @@ export class AuthHandler {
             if (!token)
                 reject(new ApiError(errorTypes.noAuthToken));
 
-            Jwt.verify<UserJwtPayLoad>(token).then((decodedData) => {
+            Jwt.verifyAccessToken<UserJwtPayLoad>(token).then((decodedData) => {
                 if (!decodedData)
                     return reject(new ApiError(errorTypes.invalidToken));
                 const auth: AuthUser = {
                     isGuest: false,
-                    mobile: decodedData.data
+                    userId: decodedData.userId
                 };
                 resolve(auth);
             }).catch((err) => {

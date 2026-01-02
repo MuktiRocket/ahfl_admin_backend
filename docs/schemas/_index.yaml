@@ -1,2 +1,4 @@
 Health:
   $ref: ./HealthInfo.yaml
+AdminLoginRequest:
+  $ref: ./AdminLoginInfo.yaml

@@ -20,7 +20,13 @@ class AppEnv {
     readonly NODE_ENV: string = "";
     readonly ENV_NAME: string = "";
     readonly API_PORT: string = "";
-
+    // Email
+    readonly EMAIL_SERVICE: string = "";
+    readonly EMAIL_USER: string = "";
+    readonly EMAIL_PASS: string = "";
+    readonly EMAIL_SMTP_URL: string = "";
+    readonly EMAIL_SMTP_PORT: string = "";
+    readonly EMAIL_SMTP_SECURE: string = "";
     // Database
     readonly DB_HOST: string = "";
     readonly DB_PORT: string = "";
@@ -31,11 +37,13 @@ class AppEnv {
 
     // JWT
     readonly GUEST_TOKEN: string = "";
-    readonly JWT_TOKEN_SECRET: string = "";
+    readonly JWT_PRIVATE_KEY: string = "";
+    readonly JWT_PUBLIC_KEY: string = "";
     readonly JWT_TOKEN_EXPIRY_MIN: string = "";
 
-    // Frontend
-    readonly FRONTEND_URL: string = "";
+    // Cryptojs
+    readonly CRYPTO_SECRET_KEY: string = "";
+    readonly DEFAULT_PASSWORD_SALT: string = "";
 
     loadFromEnv() {
         Object.keys(this).forEach(key => {

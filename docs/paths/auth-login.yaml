@@ -1,0 +1,24 @@
+  post:
+    tags:
+      - Admin Auth
+    summary: Admin login
+    description: Authenticate admin user and return access & refresh tokens
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/AdminLoginInfo.yaml#/AdminLoginRequest
+    responses:
+      "200":
+        description: Login successful
+        content:
+          application/json:
+            schema:
+              $ref: ../schemas/AdminLoginInfo.yaml#/AdminLoginResponse
+      "400":
+        $ref: ../errors/badRequest.yaml
+      "404":
+        $ref: ../errors/notFound.yaml
+      "500":
+        $ref: ../errors/internalServerError.yaml
