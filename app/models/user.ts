@@ -118,7 +118,6 @@ export class User extends BaseEntity {
         return {
             name: this.name,
             email: this.email,
-            password: this.password,
         };
     }
     public adminUser() {

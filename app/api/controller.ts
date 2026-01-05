@@ -7,14 +7,19 @@ import { UserObjectIncludes } from "../queries/user-queries";
 
 export interface RouteOptions {
     validate?: boolean;
-    userObjectIncludes?: UserObjectIncludes[]
+    userObjectIncludes?: UserObjectIncludes[];
+    encrypt?: boolean;
 }
 
 interface FullRouteOpions extends RouteOptions {
     isPublic?: boolean;
-    routeType?: "guestUserRoute" | "authUserRoute";
+    routeType?: "guestUserRoute" | "authUserRoute" | "authAdminUserRoute";
 }
-
+export const DEFAULT_ADMIN_PAGINATION_LIMIT = 10;
+export interface PaginationParams {
+    limit: number;
+    offset: number;
+}
 export abstract class Controller {
     private router: express.Router;
     protected abstract name: string;
@@ -40,7 +45,9 @@ export abstract class Controller {
     protected authenticatedUserRoute(method: RequestMethod, path: string, handler: RequestHandler, options: RouteOptions = {}) {
         this.genericRoute(method, path, handler, { ...options, routeType: "authUserRoute" });
     }
-
+    protected authenticatedAdminRoute(method: RequestMethod, path: string, handler: RequestHandler, options: RouteOptions = {}) {
+        this.genericRoute(method, path, handler, { ...options, routeType: "authAdminUserRoute" });
+    }
     private genericRoute(method: RequestMethod, path: string, handler: RequestHandler, options: FullRouteOpions) {
         const errorProofHandler = this.getErrorProofHandler(handler);
         const beforeHandlers: RequestHandler[] = [];

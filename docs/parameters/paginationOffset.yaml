@@ -1,0 +1,9 @@
+in: query
+name: offset
+required: false
+schema:
+  type: integer
+  minimum: 0
+  default: 0
+  example: 5
+  description: The offset parameter for pagination is 0 by default.

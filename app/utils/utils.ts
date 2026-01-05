@@ -18,4 +18,21 @@ export class Utils {
         const istDateTime = new Date(utcTime + istOffset);
         return istDateTime;
     }
+    public static normalizeDate(date?: string): string | undefined {
+        if (!date) return undefined;
+
+        // already ISO
+        if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return date;
+
+        // DD-MM-YYYY → YYYY-MM-DD
+        const [dd, mm, yyyy] = date.split('-');
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
+    public static extractPaginationParams(params: any, defaultLimit: number = 5) {
+        return {
+            limit: Number(params.limit) || defaultLimit,
+            offset: Number(params.offset) || 0
+        };
+    }
 }
