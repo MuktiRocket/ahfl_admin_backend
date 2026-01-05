@@ -49,8 +49,12 @@ export class Jwt {
         });
     }
 
-    public static signAccessToken(payload: object, tokenExpiresIn?: string): string {
-        const options: SignOptions = { algorithm: "RS256", expiresIn: tokenExpiresIn || Env.JWT_TOKEN_EXPIRY_MIN };
+    public static signAccessToken(payload: object, tokenExpiresIn?: SignOptions["expiresIn"]): string {
+        const options: SignOptions = {
+            algorithm: "RS256",
+            expiresIn: tokenExpiresIn ?? (Env.JWT_TOKEN_EXPIRY_MIN as SignOptions["expiresIn"]),
+        };
+
         return jwt.sign(payload, PRIVATE_KEY, options);
     }
 
