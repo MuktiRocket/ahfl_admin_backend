@@ -22,14 +22,14 @@ export class AdminCRMRequestService {
         if (from) {
             qb.andWhere(
                 'crm_request_data.createdAt >= :from',
-                { from: `${params.from} 00:00:00` }
+                { from: `${from} 00:00:00` }
             );
         }
 
         if (to) {
             qb.andWhere(
                 'crm_request_data.createdAt <= :to',
-                { to: `${params.to} 23:59:59` }
+                { to: `${to} 23:59:59` }
             );
         }
     }
