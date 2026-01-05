@@ -1221,7 +1221,7 @@
               "example": "27-12-2025"
             },
             "required": false,
-            "description": "Filter CRM requests created on or after this date (DD-MM-YYYY)"
+            "description": "Filter CRM requests created on or after this date (YYYY-MM-DD)"
           },
           {
             "in": "query",
@@ -1232,7 +1232,7 @@
               "example": "31-12-2025"
             },
             "required": false,
-            "description": "Filter CRM requests created on or before this date (DD-MM-YYYY)"
+            "description": "Filter CRM requests created on or before this date (YYYY-MM-DD)"
           },
           {
             "$ref": "#/components/parameters/paginationLimit"

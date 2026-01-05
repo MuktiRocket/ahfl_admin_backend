@@ -16,20 +16,20 @@ export class AdminCRMRequestService {
         qb: SelectQueryBuilder<CrmRequestData>,
         params: AdminCRMRequestParams
     ) {
-        const from = Utils.normalizeDate(params.from);
-        const to = Utils.normalizeDate(params.to);
+        const from = params.from;
+        const to = params.to;
 
         if (from) {
             qb.andWhere(
                 'crm_request_data.createdAt >= :from',
-                { from: `${from} 00:00:00` }
+                { from: `${params.from} 00:00:00` }
             );
         }
 
         if (to) {
             qb.andWhere(
                 'crm_request_data.createdAt <= :to',
-                { to: `${to} 23:59:59` }
+                { to: `${params.to} 23:59:59` }
             );
         }
     }
