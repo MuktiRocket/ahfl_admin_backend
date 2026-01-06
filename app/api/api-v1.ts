@@ -3,6 +3,7 @@ import { Api, ApiVersion } from "./api";
 import { HealthController } from "./health/health-controller";
 import { AdminAuthController } from "./admin-auth/admin-auth-controller";
 import { AdminCRMRequestController } from './admin-crm-request-data/admin-crm-request-data.controller';
+import { AdminTransactionDataController } from './admin-transaction-data/admin-transaction-data.controller';
 // import { JioController } from "./jio/jio-controller";
 
 export class ApiV1 extends Api {
@@ -12,6 +13,7 @@ export class ApiV1 extends Api {
         this.controllers.push(new HealthController());
         this.controllers.push(new AdminAuthController());
         this.controllers.push(new AdminCRMRequestController());
+        this.controllers.push(new AdminTransactionDataController());
     }
 
     public addRoutes(app: Express): void {
