@@ -16,7 +16,7 @@ post:
             id:
               type: string
               description: Unique identifier of the details
-              example: "13"
+              example: "10"
   responses:
     "200":
       description: CRM details retrieved successfully

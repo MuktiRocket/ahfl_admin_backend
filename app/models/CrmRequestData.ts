@@ -1,8 +1,8 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
     Column,
     CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { DateHelper } from '../utils/date-helper';
@@ -63,7 +63,6 @@ export class CrmRequestData {
 
     @UpdateDateColumn({ name: 'updated_at' })
     updatedAt!: Date;
-
 
     public getAdminCrmRequest() {
         return {

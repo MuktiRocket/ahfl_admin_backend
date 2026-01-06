@@ -1,9 +1,8 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
-import { PaginationParams } from "../controller";
 import { CrmRequestData } from "../../models/CrmRequestData";
-import { Utils } from "../../utils/utils";
 import { GeneralQueries } from "../../queries/general-queries";
+import { PaginationParams } from "../controller";
 
 export interface AdminCRMRequestParams {
     query?: string;
@@ -13,34 +12,18 @@ export interface AdminCRMRequestParams {
 
 export class AdminCRMRequestService {
 
-    private static applyCreatedAtFilter(
-        qb: SelectQueryBuilder<CrmRequestData>,
-        params: AdminCRMRequestParams
-    ) {
+    private static applyCreatedAtFilter(qb: SelectQueryBuilder<CrmRequestData>, params: AdminCRMRequestParams) {
         const from = params.from;
         const to = params.to;
 
-        if (from) {
-            qb.andWhere(
-                'crm_request_data.createdAt >= :from',
-                { from: `${from} 00:00:00` }
-            );
-        }
+        if (from)
+            qb.andWhere('crm_request_data.createdAt >= :from', { from: `${from} 00:00:00` });
 
-        if (to) {
-            qb.andWhere(
-                'crm_request_data.createdAt <= :to',
-                { to: `${to} 23:59:59` }
-            );
-        }
+        if (to)
+            qb.andWhere('crm_request_data.createdAt <= :to', { to: `${to} 23:59:59` });
     }
 
-
-
-    private static applyQueryFilter(
-        queryBuilder: SelectQueryBuilder<CrmRequestData>,
-        params: AdminCRMRequestParams
-    ) {
+    private static applyQueryFilter(queryBuilder: SelectQueryBuilder<CrmRequestData>, params: AdminCRMRequestParams) {
         if (!params.query) return;
 
         const q = `%${params.query}%`;
@@ -66,16 +49,9 @@ export class AdminCRMRequestService {
         );
     }
 
+    private static getQueryBuilder(params: AdminCRMRequestParams, manager: EntityManager = Database.manager): SelectQueryBuilder<CrmRequestData> {
 
-    private static getQueryBuilder(
-        params: AdminCRMRequestParams,
-        manager: EntityManager = Database.manager
-    ): SelectQueryBuilder<CrmRequestData> {
-
-        const queryBuilder = manager.createQueryBuilder(
-            CrmRequestData,
-            'crm_request_data'
-        );
+        const queryBuilder = manager.createQueryBuilder(CrmRequestData, 'crm_request_data');
 
         this.applyCreatedAtFilter(queryBuilder, params);
 
@@ -90,7 +66,7 @@ export class AdminCRMRequestService {
         const queryBuilder = this.getQueryBuilder(params);
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }
-    public static async getAllPaymentsForCsv(params: AdminCRMRequestParams): Promise<CrmRequestData[]> {
+    public static async getAllCrmRequestsForCsv(params: AdminCRMRequestParams): Promise<CrmRequestData[]> {
         const queryBuilder = this.getQueryBuilder(params);
 
         GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.from, toDate: params.to });

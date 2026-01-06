@@ -17,7 +17,7 @@ get:
       schema:
         type: string
         format: date
-        example: 27-12-2025
+        example: "2025-12-27"
       required: false
       description: Filter CRM requests created on or after this date (YYYY-MM-DD)
 
@@ -26,7 +26,7 @@ get:
       schema:
         type: string
         format: date
-        example: 31-12-2025
+        example: "2025-12-31"
       required: false
       description: Filter CRM requests created on or before this date (YYYY-MM-DD)
     - $ref: ../parameters/paginationLimit.yaml

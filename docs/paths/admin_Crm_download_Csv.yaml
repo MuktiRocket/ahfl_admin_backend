@@ -27,7 +27,7 @@ get:
       description: End date for filtering payments (ISO 8601 format)
   responses:
     "200":
-      description: Payments CSV file generated successfully
+      description: CRM data CSV file generated successfully
       content:
         text/csv:
           schema:
