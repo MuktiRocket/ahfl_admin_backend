@@ -78,3 +78,7 @@ paths:
     $ref: ./paths/admin_Crm_download_Csv.yaml
   /admin-crm/details:
     $ref: ./paths/admin_Crm_details.yaml
+
+  # Admin transaction data
+  /admin-transaction/getTransactionData:
+    $ref: ./paths/admin_transaction_data.yaml

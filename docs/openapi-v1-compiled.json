@@ -1454,6 +1454,145 @@
           }
         }
       }
+    },
+    "/admin-transaction/getTransactionData": {
+      "get": {
+        "summary": "Get list of transactions",
+        "tags": [
+          "Admin Transactions"
+        ],
+        "security": [
+          {
+            "BearerIndusnetIdTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Global search across customerId, mobile, orderId, txnId, loanAccountNumber, responseCode, responseMsg, responseStatus, mode, txnId and loanAccountNumber"
+          },
+          
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-12-27"
+            },
+            "required": false,
+            "description": "Filter CRM requests created on or after this date (YYYY-MM-DD)"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-12-31"
+            },
+            "required": false,
+            "description": "Filter CRM requests created on or before this date (YYYY-MM-DD)"
+          },
+          {
+            "$ref": "#/components/parameters/paginationLimit"
+          },
+          {
+            "$ref": "#/components/parameters/paginationOffset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "example": 50
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 101
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "example": "CUST_001"
+                          },
+                          "mobile": {
+                            "type": "string",
+                            "example": "9876543210"
+                          },
+                          "orderId": {
+                            "type": "string",
+                            "example": "ORD_12345"
+                          },
+                          "amount": {
+                            "type": "string",
+                            "example": "1500.75"
+                          },
+                          "responseCode": {
+                            "type": "string",
+                            "example": "00"
+                          },
+                          "responseMsg": {
+                            "type": "string",
+                            "example": "Transaction Successful"
+                          },
+                          "responseStatus": {
+                            "type": "string",
+                            "example": "SUCCESS"
+                          },
+                          "mode": {
+                            "type": "string",
+                            "example": "NETBANKING"
+                          },
+                          "txnId": {
+                            "type": "string",
+                            "example": "TXN_987654"
+                          },
+                          "loanAccountNumber": {
+                            "type": "string",
+                            "example": "LN_456789"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-01-10T14:30:00+05:30"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2024-01-11T10:15:00+05:30"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
