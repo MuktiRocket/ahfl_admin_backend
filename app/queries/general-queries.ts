@@ -1,5 +1,6 @@
 import { ObjectLiteral, SelectQueryBuilder } from "typeorm";
 import { Database } from "../database";
+import { CrmRequestData } from "../models/CrmRequestData";
 
 type DateInput = string | Date;
 export enum IntervalUnit {
@@ -25,5 +26,12 @@ export class GeneralQueries {
             queryBuilder.andWhere(`DATE(${alias}.${fieldName}) BETWEEN :fromDate AND :toDate`, { fromDate: params.fromDate, toDate: params.toDate });
         else
             queryBuilder.andWhere(`${alias}.${fieldName} >= DATE_SUB(CURDATE(), INTERVAL ${period} ${unit})`); // example: queryBuilder.andWhere(`user.createdAt >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)`);
+    }
+
+    public static async getCrmDataWithUserDetails(field: 'id', value: string): Promise<CrmRequestData | null> {
+        const queryBuilder = Database.manager.createQueryBuilder(CrmRequestData, 'crm_request_data')
+            .where(`crm_request_data.${field} = :value`, { value });
+        const crmDetail = await queryBuilder.getOne();
+        return crmDetail;
     }
 }

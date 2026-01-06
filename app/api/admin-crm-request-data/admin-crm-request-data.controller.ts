@@ -24,7 +24,7 @@ export class AdminCRMRequestController extends Controller {
         */
         this.authenticatedAdminRoute(RequestMethod.GET, '/getCrmData', this.getAllPayments.bind(this), { encrypt: false });
         this.authenticatedAdminRoute(RequestMethod.GET, '/download-csv', this.downloadPaymentsCsv.bind(this), { encrypt: false });
-        // this.authenticatedAdminRoute(RequestMethod.POST, '/details', this.paymentDetails.bind(this), { encrypt: false });
+        this.authenticatedAdminRoute(RequestMethod.POST, '/details', this.paymentDetails.bind(this), { encrypt: false });
     }
 
     private async getAllPayments(req: Request, res: Response): Promise<void> {
@@ -35,13 +35,6 @@ export class AdminCRMRequestController extends Controller {
         res.json({ totalCount, data: crmData.map(p => p.getAdminCrmRequest()) });
     }
 
-    // private async paymentDetails(req: Request, res: Response): Promise<void> {
-    //     const { id }: { id: string } = req.body;
-    //     const payment = await GeneralQueries.getPaymentWithUserDetails('id', id);
-    //     if (!payment)
-    //         throw new ApiError(errorTypes.paymentNotFound);
-    //     res.json(payment.getAdminPayment());
-    // }
 
     private async downloadPaymentsCsv(req: Request, res: Response): Promise<void> {
         const params: AdminCRMRequestParams = req.query as any;
@@ -57,5 +50,13 @@ export class AdminCRMRequestController extends Controller {
 
         HeaderHelper.setCsvDownloadHeaders(res, fileName);
         res.send('\uFEFF' + csv);
+    }
+
+    private async paymentDetails(req: Request, res: Response): Promise<void> {
+        const { id }: { id: string } = req.body;
+        const crmDetail = await GeneralQueries.getCrmDataWithUserDetails('id', id);
+        if (!crmDetail)
+            throw new ApiError(errorTypes.paymentNotFound);
+        res.json(crmDetail.getAdminCrmRequest());
     }
 }
