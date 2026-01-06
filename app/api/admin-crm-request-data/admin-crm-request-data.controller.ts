@@ -23,8 +23,7 @@ export class AdminCRMRequestController extends Controller {
          * Payments routes
         */
         this.authenticatedAdminRoute(RequestMethod.GET, '/getCrmData', this.getAllPayments.bind(this), { encrypt: false });
-        // this.authenticatedAdminRoute(RequestMethod.POST, '/post-transaction', this.handlePostTransaction.bind(this), { encrypt: false });
-        // this.authenticatedAdminRoute(RequestMethod.GET, '/download-csv', this.downloadPaymentsCsv.bind(this), { encrypt: false });
+        this.authenticatedAdminRoute(RequestMethod.GET, '/download-csv', this.downloadPaymentsCsv.bind(this), { encrypt: false });
         // this.authenticatedAdminRoute(RequestMethod.POST, '/details', this.paymentDetails.bind(this), { encrypt: false });
     }
 
@@ -32,7 +31,7 @@ export class AdminCRMRequestController extends Controller {
         const paginationParams: PaginationParams = Utils.extractPaginationParams(req.query, DEFAULT_ADMIN_PAGINATION_LIMIT);
         const params: AdminCRMRequestParams = req.query as any;
 
-        const [crmData, totalCount] = await AdminCRMRequestService.getAllPayments(params, paginationParams);
+        const [crmData, totalCount] = await AdminCRMRequestService.getAllCrmData(params, paginationParams);
         res.json({ totalCount, data: crmData.map(p => p.getAdminCrmRequest()) });
     }
 
@@ -44,43 +43,19 @@ export class AdminCRMRequestController extends Controller {
     //     res.json(payment.getAdminPayment());
     // }
 
-    // private async handlePostTransaction(req: Request, res: Response): Promise<void> {
-    //     const { id }: { id: string } = req.body;
-    //     const payment = await GeneralQueries.getPaymentWithUserDetails('id', id);
+    private async downloadPaymentsCsv(req: Request, res: Response): Promise<void> {
+        const params: AdminCRMRequestParams = req.query as any;
 
-    //     if (!payment)
-    //         throw new ApiError(errorTypes.paymentNotFound);
+        if (params.from && params.to && !DateHelper.verifyDateRange(params.from, params.to))
+            throw new ApiError(errorTypes.invalidParameters, { message: "Date range more than 1 year is not allow." });
 
-    //     if (!payment.postTransaction)
-    //         await PostTransactionService.handleLmsPostTransaction(payment);
-    //     payment.postTransaction = true;
-    //     if (!['LAS', 'LAMF'].includes(payment.user.product.product)) {
-    //         res.json(payment.getAdminPayment());
-    //         return;
-    //     }
+        const payments = await AdminCRMRequestService.getAllPaymentsForCsv(params);
+        const csvData = payments.map(p => p.getCrmCsvData());
 
-    //     if (!payment.releaseLimit || !payment.fiftyFin) {
-    //         const [releaseLimit, fiftyFin] = await PostTransactionService.handleReleaseLimitAndFiftyFin(payment);
-    //         payment.releaseLimit = releaseLimit;
-    //         payment.fiftyFin = fiftyFin;
-    //     }
+        const csv = Utils.csvGenerator(csvData);
+        const fileName = Utils.getGeneratedFileName("getCrmData", "csv");
 
-    //     res.json(payment.getAdminPayment());
-    // }
-
-    // private async downloadPaymentsCsv(req: Request, res: Response): Promise<void> {
-    //     const params: AdminPaymentParams = req.query as any;
-
-    //     if (params.from && params.to && !DateHelper.verifyDateRange(params.from, params.to))
-    //         throw new ApiError(errorTypes.invalidParameters, { message: "Date range more than 1 year is not allow." });
-
-    //     const payments = await AdminPaymentService.getAllPaymentsForCsv(params);
-    //     const csvData = payments.map(p => p.getPaymentCsvData());
-
-    //     const csv = Utils.csvGenerator(csvData);
-    //     const fileName = Utils.getGeneratedFileName("payment", "csv");
-
-    //     HeaderHelper.setCsvDownloadHeaders(res, fileName);
-    //     res.send('\uFEFF' + csv);
-    // }
+        HeaderHelper.setCsvDownloadHeaders(res, fileName);
+        res.send('\uFEFF' + csv);
+    }
 }

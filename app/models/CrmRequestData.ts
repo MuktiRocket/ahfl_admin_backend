@@ -6,6 +6,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 import { DateHelper } from '../utils/date-helper';
+import { Utils } from '../utils/utils';
 
 @Entity({ name: 'crm_request_data' })
 export class CrmRequestData {
@@ -79,6 +80,27 @@ export class CrmRequestData {
             ticketId: this.ticketId,
             createdAt: DateHelper.getISTDateTime(this.createdAt),
             updatedAt: DateHelper.getISTDateTime(this.updatedAt),
+        };
+    }
+
+    public getCrmCsvData() {
+        return {
+            'first Name': Utils.getEmtpyIfNullish(this.firstName),
+            'last Name': Utils.getEmtpyIfNullish(this.lastName),
+            'client Id': Utils.getEmtpyIfNullish(this.clientId),
+            'Contact Email Id': Utils.getEmtpyIfNullish(this.contactEmailId),
+            'Contact Mobile No': Utils.getEmtpyIfNullish(this.contactMobileNo),
+            'prob Category': Utils.getEmtpyIfNullish(this.probCategory),
+            'prob Type': Utils.getEmtpyIfNullish(this.probType),
+            'prob Summary': Utils.getEmtpyIfNullish(this.probSummary),
+            'source': Utils.getEmtpyIfNullish(this.source),
+            'ticketId': Utils.getEmtpyIfNullish(this.ticketId),
+            'createdAt': this.createdAt
+                ? DateHelper.getISTDateTime(this.createdAt)
+                : '',
+            'updatedAt': this.updatedAt
+                ? DateHelper.getISTDateTime(this.updatedAt)
+                : '',
         };
     }
 

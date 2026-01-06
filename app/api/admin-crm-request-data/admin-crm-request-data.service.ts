@@ -3,6 +3,7 @@ import { Database } from "../../database";
 import { PaginationParams } from "../controller";
 import { CrmRequestData } from "../../models/CrmRequestData";
 import { Utils } from "../../utils/utils";
+import { GeneralQueries } from "../../queries/general-queries";
 
 export interface AdminCRMRequestParams {
     query?: string;
@@ -85,8 +86,15 @@ export class AdminCRMRequestService {
         return queryBuilder;
     }
 
-    public static async getAllPayments(params: AdminCRMRequestParams, paginationParams: PaginationParams): Promise<[CrmRequestData[], number]> {
+    public static async getAllCrmData(params: AdminCRMRequestParams, paginationParams: PaginationParams): Promise<[CrmRequestData[], number]> {
         const queryBuilder = this.getQueryBuilder(params);
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
+    }
+    public static async getAllPaymentsForCsv(params: AdminCRMRequestParams): Promise<CrmRequestData[]> {
+        const queryBuilder = this.getQueryBuilder(params);
+
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.from, toDate: params.to });
+
+        return await queryBuilder.getMany();
     }
 }

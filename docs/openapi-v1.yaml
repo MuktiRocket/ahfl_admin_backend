@@ -74,3 +74,5 @@ paths:
   #Admin crm Dashboard
   /admin-crm/getCrmData:
     $ref: ./paths/admin_getCrm_Data.yaml
+  /admin-crm/download-csv:
+    $ref: ./paths/admin_Crm_download_Csv.yaml

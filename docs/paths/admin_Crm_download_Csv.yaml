@@ -1,0 +1,39 @@
+get:
+  summary: Get list of payments (CSV Download)
+  tags:
+    - Admin Payment
+  security:
+    - BearerIndusnetIdTokenAuth: []
+  parameters:
+    - in: query
+      name: query
+      schema:
+        type: string
+      required: false
+      description: Search payments by merchantTxnNo, amount, flowType, paymentStatus, responseCode, tranCtx, status and customerEmailID
+    - in: query
+      name: from
+      schema:
+        type: string
+        format: date
+      required: false
+      description: Start date for filtering payments (ISO 8601 format)
+    - in: query
+      name: to
+      schema:
+        type: string
+        format: date
+      required: false
+      description: End date for filtering payments (ISO 8601 format)
+  responses:
+    "200":
+      description: Payments CSV file generated successfully
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
+    "401":
+      $ref: ../errors/unauthorized.yaml
+    "500":
+      $ref: ../errors/internalServerError.yaml
