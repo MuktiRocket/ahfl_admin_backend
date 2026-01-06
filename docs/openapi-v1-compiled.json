@@ -1332,9 +1332,9 @@
     },
     "/admin-crm/download-csv": {
       "get": {
-        "summary": "Get list of payments (CSV Download)",
+        "summary": "Get list of CRM Data (CSV Download)",
         "tags": [
-          "Admin Payment"
+          "Admin CRM Data"
         ],
         "security": [
           {
@@ -1349,7 +1349,7 @@
               "type": "string"
             },
             "required": false,
-            "description": "Search payments by merchantTxnNo, amount, flowType, paymentStatus, responseCode, tranCtx, status and customerEmailID"
+            "description": "Search Crm Details by clientId, email, mobile, ticketId, category, type, summary, and source"
           },
           {
             "in": "query",
