@@ -70,3 +70,11 @@ paths:
     $ref: ./paths/auth_forget-password.yaml
   /auth/change-password:
     $ref: ./paths/auth_change-password.yaml
+
+  #Admin crm Dashboard
+  /admin-crm/getCrmData:
+    $ref: ./paths/admin_getCrm_Data.yaml
+  /admin-crm/download-csv:
+    $ref: ./paths/admin_Crm_download_Csv.yaml
+  /admin-crm/details:
+    $ref: ./paths/admin_Crm_details.yaml

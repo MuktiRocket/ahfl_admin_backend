@@ -1,0 +1,37 @@
+post:
+  summary: Get CRM details by ID
+  tags:
+    - Admin CRM Data
+  security:
+    - BearerIndusnetIdTokenAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: Unique identifier of the details 
+              example: "13"
+  responses:
+    "200":
+      description: CRM details retrieved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            allOf:
+              - $ref: ../schemas/CRMData.yaml
+
+    "400":
+      description: Invalid or missing CRM Request Id.
+    "401":
+      $ref: ../errors/unauthorized.yaml
+    "404":
+      description: CRM Data not found
+    "500":
+      $ref: ../errors/internalServerError.yaml
