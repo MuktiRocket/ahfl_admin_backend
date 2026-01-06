@@ -3,7 +3,7 @@ get:
   tags:
     - Admin CRM Data
   security:
-    - BearerIndusnetIdTokenAuth: []
+    - BearerAuthorizationTokenAuth: []
   parameters:
     - in: query
       name: query

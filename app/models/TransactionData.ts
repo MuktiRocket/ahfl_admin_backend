@@ -63,19 +63,19 @@ export class TransactionData {
 
     public getTransactionCsvData() {
         return {
-            'customerId': Utils.getEmtpyIfNullish(this.customerId),
-            'mobile': Utils.getEmtpyIfNullish(this.mobile),
-            'orderId': Utils.getEmtpyIfNullish(this.orderId),
-            'amount': Utils.getEmtpyIfNullish(this.amount),
-            'responseCode': Utils.getEmtpyIfNullish(this.responseCode),
-            'responseMsg': Utils.getEmtpyIfNullish(this.responseMsg),
-            'responseStatus': Utils.getEmtpyIfNullish(this.responseStatus),
-            'mode': Utils.getEmtpyIfNullish(this.mode),
-            'txnId': Utils.getEmtpyIfNullish(this.txnId),
-            'loanAccountNumber': Utils.getEmtpyIfNullish(this.loanAccountNumber),
-            'createdAt': this.createdAt
+            customerId: Utils.getEmtpyIfNullish(this.customerId),
+            mobile: Utils.getEmtpyIfNullish(this.mobile),
+            orderId: Utils.getEmtpyIfNullish(this.orderId),
+            amount: Utils.getEmtpyIfNullish(this.amount),
+            responseCode: Utils.getEmtpyIfNullish(this.responseCode),
+            responseMsg: Utils.getEmtpyIfNullish(this.responseMsg),
+            responseStatus: Utils.getEmtpyIfNullish(this.responseStatus),
+            mode: Utils.getEmtpyIfNullish(this.mode),
+            txnId: Utils.getEmtpyIfNullish(this.txnId),
+            loanAccountNumber: Utils.getEmtpyIfNullish(this.loanAccountNumber),
+            createdAt: this.createdAt
                 ? DateHelper.getISTDateTime(this.createdAt) : '',
-            'updatedAt': this.updatedAt
+            updatedAt: this.updatedAt
                 ? DateHelper.getISTDateTime(this.updatedAt) : ''
         };
     }

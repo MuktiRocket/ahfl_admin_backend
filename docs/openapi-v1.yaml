@@ -1,16 +1,16 @@
-# Author: Ghulam Moinuddin
-# Date: 2025-01-08
+# Author: Jaydeep Sarkar
+# Date: 2026-01-06
 # Description: Documentation done targeting OAS 3.x.x, Doc Url is https://swagger.io/specification/ example can be find here https://petstore.swagger.io/?_gl=1*r6pir5*_gcl_au*MTE0NDM4NzQzOS4xNzM2MjMwMTg1
 
 openapi: 3.0.0
 info:
-  title: Jio Middleware API
-  description: How to talk with Jio Api
+  title: Aadhar Housing Finance Limited API
+  description: How to talk with AHFL Api
   version: 1.0.0
 
   contact:
-    name: Ghulam Moinuddin
-    email: ghulam.moinuddin@intglobal.com
+    name: Jaydeep Sarkar
+    email: jaydeep.sarkar@intglobal.com
 
 servers:
   - url: http://localhost:8125/api/v1
@@ -25,42 +25,11 @@ components:
 tags:
   - name: General
     description: General endpoint to check the health status of the system
-  - name: JIO
-    description: Generate token and handle Zoho Desk tickets
 
 paths:
   /health:
     $ref: ./paths/health.yaml
 
-  # /jio/access-token:
-  #   $ref: ./paths/jio_access_token.yaml
-
-  /jio/app-url:
-    $ref: ./paths/jio_app_url.yaml
-  /jio/validate-key:
-    $ref: ./paths/jio_validate_key.yaml
-
-  /jio/generate:
-    $ref: ./paths/jio_generate.yaml
-  /jio/contacts/search:
-    $ref: ./paths/jio_contacts_search.yaml
-  /jio/create/ticket/contact:
-    $ref: ./paths/jio_create_ticket_contact.yaml
-  /jio/contacts/create-contact:
-    $ref: ./paths/jio_create_contact.yaml
-  /jio/contacts/search-ticket-by-phone:
-    $ref: ./paths/jio_search_ticket_by_phone.yaml
-  /jio/contacts/get-ticket-by-id:
-    $ref: ./paths/jio_get_ticket_by_id.yaml
-  /jio/contacts/get-threads:
-    $ref: ./paths/jio_get_threads.yaml
-  /jio/contacts/create-comments:
-    $ref: ./paths/jio_create_comments.yaml
-  /jio/loan/getLimit:
-    $ref: ./paths/jio_loan_getLimit.yaml
-  /jio/lead/leadInfo:
-    $ref: ./paths/jio_lead_leadInfo.yaml
-    
   # Admin user login / password change journey
   /auth/login:
     $ref: ./paths/auth-login.yaml
@@ -73,7 +42,7 @@ paths:
 
   #Admin crm Dashboard
   /admin-crm/getCrmData:
-    $ref: ./paths/admin_getCrm_Data.yaml
+    $ref: ./paths/admin_getCrm_data.yaml
   /admin-crm/download-csv:
     $ref: ./paths/admin_Crm_download_Csv.yaml
   /admin-crm/details:

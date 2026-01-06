@@ -1,0 +1,110 @@
+get:
+  summary: Get list of CRM requests
+  tags:
+    - Admin CRM Data
+  security:
+    - BearerAuthorizationTokenAuth: []
+
+  parameters:
+    - in: query
+      name: query
+      schema:
+        type: string
+      required: false
+      description: Global search across clientId, email, mobile, ticketId, category, type, summary, and source
+    - in: query
+      name: from
+      schema:
+        type: string
+        format: date
+        example: 27-12-2025
+      required: false
+      description: Filter CRM requests created on or after this date (YYYY-MM-DD)
+
+    - in: query
+      name: to
+      schema:
+        type: string
+        format: date
+        example: 31-12-2025
+      required: false
+      description: Filter CRM requests created on or before this date (YYYY-MM-DD)
+    - $ref: ../parameters/paginationLimit.yaml
+    - $ref: ../parameters/paginationOffset.yaml
+  responses:
+    "200":
+      description: CRM requests retrieved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+                example: 12
+
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 101
+
+                    firstName:
+                      type: string
+                      example: Manas
+
+                    lastName:
+                      type: string
+                      example: Raj
+
+                    clientId:
+                      type: string
+                      example: CLIENT_123
+
+                    contactEmailId:
+                      type: string
+                      format: email
+                      example: manas@example.com
+
+                    contactMobileNo:
+                      type: string
+                      example: "9876543210"
+
+                    probCategory:
+                      type: string
+                      example: Payment Issue
+
+                    probType:
+                      type: string
+                      example: Refund
+
+                    probSummary:
+                      type: string
+                      example: Refund not received
+
+                    source:
+                      type: string
+                      example: MobileApp
+
+                    ticketId:
+                      type: string
+                      example: TCKT-20240101
+
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: "2024-01-10T14:30:00+05:30"
+
+                    updatedAt:
+                      type: string
+                      format: date-time
+                      example: "2024-01-11T10:15:00+05:30"
+
+    "401":
+      $ref: ../errors/unauthorized.yaml
+
+    "500":
+      $ref: ../errors/internalServerError.yaml

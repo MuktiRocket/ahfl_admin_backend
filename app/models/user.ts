@@ -57,27 +57,11 @@ export class User extends BaseEntity {
     @Column({ nullable: true })
     password?: string;
 
-    // relation with token
-    // @OneToMany(() => Token, token => token.user)
-    // tokens!: Token[];
-
-    // @Column({ type: "varchar", length: 10, nullable: true })
-    // otpCode?: string;
-
-    // @Column({ type: "datetime", nullable: true })
-    // otpExpiry?: Date;
-
-    // @Column({ type: "varchar", nullable: true })
-    // totpSecret?: string | null;
-
     @Column({ type: "varchar", length: 10, nullable: true })
     tempPassword?: string | null;
 
     @Column({ type: "datetime", nullable: true })
     tempPasswordExpiry?: Date;
-
-    // @Column({ type: "boolean", nullable: true, default: false })
-    // isTncConsent?: boolean;
 
     @CreateDateColumn()
     createdAt!: Date;
