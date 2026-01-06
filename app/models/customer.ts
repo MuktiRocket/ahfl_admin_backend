@@ -33,7 +33,6 @@ export class Customer {
     @Column({ type: "varchar", length: 255, nullable: true })
     mpin!: string | null;
 
-
     public getAdminCustomerData() {
         const parsedCustomerData = this.customer_data
             ? JSON.parse(this.customer_data)

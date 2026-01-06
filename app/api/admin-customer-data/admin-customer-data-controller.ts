@@ -33,7 +33,6 @@ export class AdminCustomerDataController extends Controller {
 
         const customers = await AdminCustomerDataService.getAllCustomersForCsv(params);
         const csvData = customers.map(c => c.getCustomerCsvData());
-        console.log(csvData)
         const csv = Utils.csvGenerator(csvData);
         const fileName = Utils.getGeneratedFileName("getCustomerData", "csv");
 

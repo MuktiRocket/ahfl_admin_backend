@@ -42,7 +42,6 @@ export class AdminCRMRequestController extends Controller {
 
         const payments = await AdminCRMRequestService.getAllCrmRequestsForCsv(params);
         const csvData = payments.map(p => p.getCrmCsvData());
-        console.log(csvData)
         const csv = Utils.csvGenerator(csvData);
         const fileName = Utils.getGeneratedFileName("getCrmData", "csv");
 
