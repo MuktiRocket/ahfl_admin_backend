@@ -66,6 +66,7 @@ export class AdminCRMRequestService {
         const queryBuilder = this.getQueryBuilder(params);
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }
+
     public static async getAllCrmRequestsForCsv(params: AdminCRMRequestParams): Promise<CrmRequestData[]> {
         const queryBuilder = this.getQueryBuilder(params);
 

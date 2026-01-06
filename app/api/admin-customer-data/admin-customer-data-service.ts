@@ -1,6 +1,6 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
-import { TransactionData } from "../../models/TransactionData";
+import { Customer } from "../../models/customer";
 import { PaginationParams } from "../controller";
 
 export interface AdminCustomerDataParams {
@@ -12,7 +12,7 @@ export interface AdminCustomerDataParams {
 }
 
 export class AdminCustomerDataService {
-    private static applyCreatedAtFilter(qb: SelectQueryBuilder<TransactionData>, params: AdminCustomerDataParams) {
+    private static applyCreatedAtFilter(qb: SelectQueryBuilder<Customer>, params: AdminCustomerDataParams) {
         const from = params.from;
         const to = params.to;
 
@@ -23,42 +23,46 @@ export class AdminCustomerDataService {
             qb.andWhere('payment_details.createdAt <= :to', { to: `${to} 23:59:59` });
     }
 
-    private static applyQueryFilter(queryBuilder: SelectQueryBuilder<TransactionData>, params: AdminCustomerDataParams) {
+    private static applyQueryFilter(queryBuilder: SelectQueryBuilder<Customer>, params: AdminCustomerDataParams) {
         if (!params.query) return;
 
         const q = `%${params.query}%`;
 
         queryBuilder.andWhere(
-            new Brackets(qb => {
-                qb.where('payment_details.customerId LIKE :q', { q })
-                    .orWhere('payment_details.mobile LIKE :q', { q })
-                    .orWhere('payment_details.orderId LIKE :q', { q })
-                    .orWhere('payment_details.amount LIKE :q', { q })
-                    .orWhere('payment_details.responseCode LIKE :q', { q })
-                    .orWhere('payment_details.responseMsg LIKE :q', { q })
-                    .orWhere('payment_details.responseStatus LIKE :q', { q })
-                    .orWhere('payment_details.mode LIKE :q', { q })
-                    .orWhere('payment_details.txnId LIKE :q', { q })
-                    .orWhere('payment_details.loanAccountNumber LIKE :q', { q });
+            new Brackets(subQb => {
+                subQb
+                    .where('user_data.uid LIKE :q', { q })
+                    .orWhere('user_data.mobile_number LIKE :q', { q })
+                    .orWhere('user_data.loanAccountNumber LIKE :q', { q })
+                    .orWhere('user_data.dob LIKE :q', { q })
+                    .orWhere('user_data.customer_data LIKE :q', { q });
             })
         );
     }
 
-    private static getQueryBuilder(params: AdminCustomerDataParams, manager: EntityManager = Database.manager): SelectQueryBuilder<TransactionData> {
+    private static getQueryBuilder(params: AdminCustomerDataParams, manager: EntityManager = Database.manager): SelectQueryBuilder<Customer> {
 
-        const queryBuilder = manager.createQueryBuilder(TransactionData, 'payment_details');
+        const queryBuilder = manager.createQueryBuilder(Customer, 'user_data');
 
         this.applyCreatedAtFilter(queryBuilder, params);
-
         this.applyQueryFilter(queryBuilder, params);
 
-        queryBuilder.orderBy('payment_details.createdAt', 'DESC');
+        queryBuilder.orderBy('user_data.id', 'DESC');
 
         return queryBuilder;
     }
 
-    public static async getAllCustomerData(params: AdminCustomerDataParams, paginationParams: PaginationParams): Promise<[TransactionData[], number]> {
+    public static async getAllCustomerData(params: AdminCustomerDataParams, paginationParams: PaginationParams): Promise<[Customer[], number]> {
+        const qb = this.getQueryBuilder(params);
+
+        return await qb.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
+    }
+
+    public static async getAllCustomersForCsv(params: AdminCustomerDataParams): Promise<Customer[]> {
         const queryBuilder = this.getQueryBuilder(params);
-        return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
+
+        // GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.from, toDate: params.to });
+
+        return await queryBuilder.getMany();
     }
 }

@@ -1,0 +1,78 @@
+post:
+  summary: Get customer details by ID
+  tags:
+    - Admin Customers
+  security:
+    - BearerAuthorizationTokenAuth: []
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              example: "12"
+              description: Customer ID from user_data table
+
+  responses:
+    "200":
+      description: Customer details retrieved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 12
+
+              uid:
+                type: string
+                example: 51f5eba8-2f58-4484-af5d-e3b83d03f5a4
+
+              mobileNumber:
+                type: string
+                example: "9876543210"
+
+              loanAccountNumber:
+                type: string
+                example: "0000018800003459"
+
+              dob:
+                type: string
+                example: "1996-03-05"
+
+              customerData:
+                type: object
+                nullable: true
+                description: Parsed customer_data JSON
+                example:
+                  applicantFullName: Nikhil Bhagat
+                  applicantMobileNo: "9876543210"
+                  branchCode: "10567"
+                  productType: "260"
+
+    "401":
+      $ref: ../errors/unauthorized.yaml
+
+    "404":
+      description: Customer not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                example: paymentNotFound
+              message:
+                type: string
+                example: Customer not found
+
+    "500":
+      $ref: ../errors/internalServerError.yaml

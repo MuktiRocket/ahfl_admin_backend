@@ -1,0 +1,25 @@
+get:
+  summary: Get list of Customer Data (CSV Download)
+  tags:
+    - Admin Customers
+  security:
+    - BearerAuthorizationTokenAuth: []
+  parameters:
+    - in: query
+      name: query
+      schema:
+        type: string
+      required: false
+      description: Search Crm Details by clientId, email, mobile, ticketId, category, type, summary, and source
+  responses:
+    "200":
+      description: CRM data CSV file generated successfully
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
+    "401":
+      $ref: ../errors/unauthorized.yaml
+    "500":
+      $ref: ../errors/internalServerError.yaml

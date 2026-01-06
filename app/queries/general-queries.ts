@@ -1,6 +1,7 @@
 import { ObjectLiteral, SelectQueryBuilder } from "typeorm";
 import { Database } from "../database";
 import { CrmRequestData } from "../models/CrmRequestData";
+import { Customer } from "../models/customer";
 
 type DateInput = string | Date;
 export enum IntervalUnit {
@@ -31,6 +32,13 @@ export class GeneralQueries {
     public static async getCrmDataWithUserDetails(field: 'id', value: string): Promise<CrmRequestData | null> {
         const queryBuilder = Database.manager.createQueryBuilder(CrmRequestData, 'crm_request_data')
             .where(`crm_request_data.${field} = :value`, { value });
+        const crmDetail = await queryBuilder.getOne();
+        return crmDetail;
+    }
+
+    public static async getCustomerDetails(field: 'id', value: string): Promise<Customer | null> {
+        const queryBuilder = Database.manager.createQueryBuilder(Customer, 'user_data')
+            .where(`user_data.${field} = :value`, { value });
         const crmDetail = await queryBuilder.getOne();
         return crmDetail;
     }

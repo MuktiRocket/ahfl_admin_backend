@@ -1,6 +1,6 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
-import { TransactionData } from "../../models/TransactionData";
 import { Database } from "../../database";
+import { TransactionData } from "../../models/TransactionData";
 import { PaginationParams } from "../controller";
 
 export interface AdminTransactionDataParams {
@@ -12,32 +12,18 @@ export interface AdminTransactionDataParams {
 }
 
 export class AdminTransactionDataService {
-    private static applyCreatedAtFilter(
-        qb: SelectQueryBuilder<TransactionData>,
-        params: AdminTransactionDataParams
-    ) {
+    private static applyCreatedAtFilter(qb: SelectQueryBuilder<TransactionData>, params: AdminTransactionDataParams) {
         const from = params.from;
         const to = params.to;
 
-        if (from) {
-            qb.andWhere(
-                'payment_details.createdAt >= :from',
-                { from: `${from} 00:00:00` }
-            );
-        }
+        if (from)
+            qb.andWhere('payment_details.createdAt >= :from', { from: `${from} 00:00:00` });
 
-        if (to) {
-            qb.andWhere(
-                'payment_details.createdAt <= :to',
-                { to: `${to} 23:59:59` }
-            );
-        }
+        if (to)
+            qb.andWhere('payment_details.createdAt <= :to', { to: `${to} 23:59:59` });
     }
 
-    private static applyQueryFilter(
-        queryBuilder: SelectQueryBuilder<TransactionData>,
-        params: AdminTransactionDataParams
-    ) {
+    private static applyQueryFilter(queryBuilder: SelectQueryBuilder<TransactionData>, params: AdminTransactionDataParams) {
         if (!params.query) return;
 
         const q = `%${params.query}%`;
@@ -58,15 +44,9 @@ export class AdminTransactionDataService {
         );
     }
 
-    private static getQueryBuilder(
-        params: AdminTransactionDataParams,
-        manager: EntityManager = Database.manager
-    ): SelectQueryBuilder<TransactionData> {
+    private static getQueryBuilder(params: AdminTransactionDataParams, manager: EntityManager = Database.manager): SelectQueryBuilder<TransactionData> {
 
-        const queryBuilder = manager.createQueryBuilder(
-            TransactionData,
-            'payment_details'
-        );
+        const queryBuilder = manager.createQueryBuilder(TransactionData, 'payment_details');
 
         this.applyCreatedAtFilter(queryBuilder, params);
 
@@ -76,8 +56,8 @@ export class AdminTransactionDataService {
 
         return queryBuilder;
     }
-    
-    public static async getAllTransactionData(params: AdminTransactionDataParams, paginationParams: PaginationParams): Promise<[TransactionData[], number]> {        
+
+    public static async getAllTransactionData(params: AdminTransactionDataParams, paginationParams: PaginationParams): Promise<[TransactionData[], number]> {
         const queryBuilder = this.getQueryBuilder(params);
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }

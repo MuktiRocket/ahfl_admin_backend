@@ -49,5 +49,13 @@ paths:
     $ref: ./paths/admin_Crm_details.yaml
 
   # Admin transaction data
-  /admin-transaction/getTransactionData:
-    $ref: ./paths/admin_transaction_data.yaml
+  /admin-transaction/transactions:
+    $ref: ./paths/admin_transactions.yaml
+
+  # Admin transaction data
+  /admin-customer/customers-list:
+    $ref: ./paths/admin_customer.yaml
+  /admin-customer/download-csv:
+    $ref: ./paths/admin_customer_download_Csv.yaml
+  /admin-customer/details:
+    $ref: ./paths/admin_customer_details.yaml
