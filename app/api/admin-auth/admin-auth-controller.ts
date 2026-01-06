@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { Controller } from "../controller";
-import { AdminAuthService } from './admin-auth-service';
-import { RequestMethod } from "../request-method";
 import { ApiError, errorTypes } from '../../error/api-error';
+import { AdminUser } from '../../models/adminUser';
+import { TokenService } from '../../services/token-service';
+import { Env } from '../../utils/env';
 import { Jwt } from '../../utils/jwt';
 import { logger } from '../../utils/logger';
-import { Env } from '../../utils/env';
-import { User } from '../../models/user';
-import { TokenService } from '../../services/token-service';
+import { Controller } from "../controller";
+import { RequestMethod } from "../request-method";
+import { AdminAuthService } from './admin-auth-service';
 
 interface ValidateLoginParams {
     email: string;
@@ -95,7 +95,7 @@ export class AdminAuthController extends Controller {
     }
 
     private async changePassword(req: Request, res: Response): Promise<void> {
-        const user: User = res.locals.user;
+        const user: AdminUser = res.locals.user;
         const { password }: ChangePasswordParams = req.body;
         const isEmailService = Env.EMAIL_SERVICE == "true";
         await AdminAuthService.changePassword(user, password, isEmailService);

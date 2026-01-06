@@ -44,7 +44,7 @@ export interface CreateUserParams {
 }
 
 @Entity({ name: 'admin_user' })
-export class User extends BaseEntity {
+export class AdminUser extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
@@ -79,8 +79,8 @@ export class User extends BaseEntity {
         this.password = params.password;
     }
 
-    public update(updates: Partial<UpdateUserParams>): [boolean, QueryDeepPartialEntity<User>] {
-        return User.updateFields<User, UpdateUserParams>(this, updates);
+    public update(updates: Partial<UpdateUserParams>): [boolean, QueryDeepPartialEntity<AdminUser>] {
+        return AdminUser.updateFields<AdminUser, UpdateUserParams>(this, updates);
     }
 
     private static updateFields<T extends object, U extends Partial<T>>(target: T, source: U): [boolean, U] {
