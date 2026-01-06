@@ -44,7 +44,7 @@ export interface CreateUserParams {
 }
 
 @Entity({ name: 'admin_user' })
-export class User extends BaseEntity {
+export class AdminUser extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
@@ -57,27 +57,11 @@ export class User extends BaseEntity {
     @Column({ nullable: true })
     password?: string;
 
-    // relation with token
-    // @OneToMany(() => Token, token => token.user)
-    // tokens!: Token[];
-
-    // @Column({ type: "varchar", length: 10, nullable: true })
-    // otpCode?: string;
-
-    // @Column({ type: "datetime", nullable: true })
-    // otpExpiry?: Date;
-
-    // @Column({ type: "varchar", nullable: true })
-    // totpSecret?: string | null;
-
     @Column({ type: "varchar", length: 10, nullable: true })
     tempPassword?: string | null;
 
     @Column({ type: "datetime", nullable: true })
     tempPasswordExpiry?: Date;
-
-    // @Column({ type: "boolean", nullable: true, default: false })
-    // isTncConsent?: boolean;
 
     @CreateDateColumn()
     createdAt!: Date;
@@ -95,8 +79,8 @@ export class User extends BaseEntity {
         this.password = params.password;
     }
 
-    public update(updates: Partial<UpdateUserParams>): [boolean, QueryDeepPartialEntity<User>] {
-        return User.updateFields<User, UpdateUserParams>(this, updates);
+    public update(updates: Partial<UpdateUserParams>): [boolean, QueryDeepPartialEntity<AdminUser>] {
+        return AdminUser.updateFields<AdminUser, UpdateUserParams>(this, updates);
     }
 
     private static updateFields<T extends object, U extends Partial<T>>(target: T, source: U): [boolean, U] {

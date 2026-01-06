@@ -1,7 +1,7 @@
 get:
-  summary: Get list of CRM Data (CSV Download)
+  summary: Get list of Customer Data (CSV Download)
   tags:
-    - Admin CRM Data
+    - Admin Customers
   security:
     - BearerAuthorizationTokenAuth: []
   parameters:
@@ -11,20 +11,6 @@ get:
         type: string
       required: false
       description: Search Crm Details by clientId, email, mobile, ticketId, category, type, summary, and source
-    - in: query
-      name: from
-      schema:
-        type: string
-        format: date
-      required: false
-      description: Start date for filtering payments (ISO 8601 format)
-    - in: query
-      name: to
-      schema:
-        type: string
-        format: date
-      required: false
-      description: End date for filtering payments (ISO 8601 format)
   responses:
     "200":
       description: CRM data CSV file generated successfully

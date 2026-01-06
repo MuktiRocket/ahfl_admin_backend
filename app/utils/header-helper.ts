@@ -1,6 +1,5 @@
 import { RawAxiosRequestHeaders } from "axios";
 import type { Response } from "express";
-import { Env } from "./env";
 
 /**
  * Interface for custom headers used in Jio Finance and Encore APIs.

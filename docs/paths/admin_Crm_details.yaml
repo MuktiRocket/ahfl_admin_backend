@@ -3,7 +3,7 @@ post:
   tags:
     - Admin CRM Data
   security:
-    - BearerIndusnetIdTokenAuth: []
+    - BearerAuthorizationTokenAuth: []
   requestBody:
     required: true
     content:
@@ -15,8 +15,8 @@ post:
           properties:
             id:
               type: string
-              description: Unique identifier of the details 
-              example: "13"
+              description: Unique identifier of the details
+              example: "10"
   responses:
     "200":
       description: CRM details retrieved successfully

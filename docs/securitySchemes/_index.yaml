@@ -1,4 +1,2 @@
-BearerIndusnetIdTokenAuth:
-  $ref: ./BearerIndusnetIdTokenAuth.yaml
-BearerJioIdTokenAuth:
-  $ref: ./BearerJioIdTokenAuth.yaml
+BearerAuthorizationTokenAuth:
+  $ref: ./AuthorizationToken.yaml
