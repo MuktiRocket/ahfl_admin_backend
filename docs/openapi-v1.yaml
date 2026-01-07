@@ -51,8 +51,10 @@ paths:
   # Admin transaction data
   /admin-transaction/transactions:
     $ref: ./paths/admin_transactions.yaml
+  /admin-transaction/download-csv:
+    $ref: ./paths/admin_transaction_download_Csv.yaml
 
-  # Admin transaction data
+  # Admin customer data
   /admin-customer/customers-list:
     $ref: ./paths/admin_customer.yaml
   /admin-customer/download-csv:
