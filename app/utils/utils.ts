@@ -1,4 +1,3 @@
-import { PaginationParams } from "../api/controller";
 import { Env } from "./env";
 
 export class Utils {
@@ -38,7 +37,7 @@ export class Utils {
         return text ?? "";
     }
 
-    public static extractPaginationParams(params: PaginationParams, defaultLimit: number = 5) {
+    public static extractPaginationParams(params: any, defaultLimit: number = 5) {
         return {
             limit: Number(params.limit) || defaultLimit,
             offset: Number(params.offset) || 0
