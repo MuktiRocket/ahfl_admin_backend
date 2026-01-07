@@ -16,8 +16,8 @@ export class OpenApiService {
     public static initialize(): void {
         OpenApiService.openApiDocs = JSON.parse(readFileSync(API_DOCS_PATH, 'utf-8'));
         OpenApiService.options = {
-            customSiteTitle: "Jio Middleware Backend",
-            customfavIcon: "/public/jio-favicon.ico",
+            customSiteTitle: "AHFL Backend",
+            customfavIcon: "/public/favicon.ico",
             customCss: `
                 .topbar {
                     display: none;
