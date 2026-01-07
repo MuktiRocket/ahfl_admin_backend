@@ -3,7 +3,7 @@ post:
     - Admin Authentication
   summary: Verify your self using an authentication code sent in email
   security:
-    - BearerGuestIdTokenAuth: []
+    - BearerAuthorizationTokenAuth: []
   requestBody:
     required: true
     content:

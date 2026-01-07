@@ -1,0 +1,68 @@
+get:
+  summary: Get list of customers
+  tags:
+    - Admin Customers
+  security:
+    - BearerAuthorizationTokenAuth: []
+
+  parameters:
+    - in: query
+      name: query
+      schema:
+        type: string
+      required: false
+      description: Global search across uid, mobile number, loan account number, DOB and customer data
+    - $ref: ../parameters/paginationLimit.yaml
+    - $ref: ../parameters/paginationOffset.yaml
+
+  responses:
+    "200":
+      description: Customers retrieved successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+                example: 25
+
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 10234
+
+                    uid:
+                      type: string
+                      example: 51f5eba8-2f58-4484-af5d-e3b83d03f5a4
+
+                    mobileNumber:
+                      type: string
+                      example: "9876543210"
+
+                    loanAccountNumber:
+                      type: string
+                      example: "0000018800003459"
+
+                    dob:
+                      type: string
+                      example: "1996-03-05"
+
+                    customerData:
+                      type: object
+                      description: Parsed customer profile data
+                      example:
+                        applicantFullName: Nikhil Bhagat
+                        applicantMobileNo: "9876543210"
+                        branchCode: "10567"
+                        productType: "260"
+
+    "401":
+      $ref: ../errors/unauthorized.yaml
+
+    "500":
+      $ref: ../errors/internalServerError.yaml

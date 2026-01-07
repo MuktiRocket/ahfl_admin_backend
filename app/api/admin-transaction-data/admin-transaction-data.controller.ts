@@ -7,8 +7,8 @@ import { AdminTransactionDataParams, AdminTransactionDataService } from "./admin
 export class AdminTransactionDataController extends Controller {
     protected name: string = "admin-transaction";
 
-    protected createRoutes(): void {        
-        this.authenticatedAdminRoute(RequestMethod.GET, '/getTransactionData', this.getAllTransactions.bind(this), { encrypt: false });
+    protected createRoutes(): void {
+        this.authenticatedAdminRoute(RequestMethod.GET, '/transactions', this.getAllTransactions.bind(this), { encrypt: false });
     }
 
     private async getAllTransactions(req: Request, res: Response): Promise<void> {

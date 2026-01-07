@@ -1,9 +1,9 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { User } from "./user";
+import { AdminUser } from "./adminUser";
 
 export interface CreateTokenParams {
     refreshToken: string;
-    user: User;
+    user: AdminUser;
 }
 
 @Entity()

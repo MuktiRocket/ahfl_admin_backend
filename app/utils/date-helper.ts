@@ -25,11 +25,14 @@ export class DateHelper {
      * @returns The date and time in Indian standard time
      * Example: 2025-09-13T16:22:16.939Z
      */
-    public static getISTDateTime(date: string | Date): Date {
+    public static getISTDateTime(date: string | Date): Date | "" {
+        if (!date) return "";
+
         const tranDate = new Date(date);
+        if (isNaN(tranDate.getTime())) return "";
+
         const istOffset = 5.5 * 60 * 60 * 1000;
-        const istDateTime = new Date(tranDate.getTime() + istOffset);
-        return istDateTime;
+        return new Date(tranDate.getTime() + istOffset);
     }
 
     /**

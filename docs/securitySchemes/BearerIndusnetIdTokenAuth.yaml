@@ -1,4 +1,0 @@
-type: apiKey
-in: header
-name: Authorization
-description: 'Supply the "IdToken" in the Authorization header as follows: "Bearer <id_token>".'
