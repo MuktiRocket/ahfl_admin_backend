@@ -1,3 +1,4 @@
+import { PaginationParams } from "../api/controller";
 import { Env } from "./env";
 
 export class Utils {
@@ -36,12 +37,14 @@ export class Utils {
     public static getEmtpyIfNullish(text: string | null | undefined): string {
         return text ?? "";
     }
-    public static extractPaginationParams(params: any, defaultLimit: number = 5) {
+
+    public static extractPaginationParams(params: PaginationParams, defaultLimit: number = 5) {
         return {
             limit: Number(params.limit) || defaultLimit,
             offset: Number(params.offset) || 0
         };
     }
+
     public static csvGenerator<G extends Record<string, any>>(data: G[], header?: (keyof G)[]): string {
         if (!header && data.length === 0)
             return "";
@@ -66,6 +69,7 @@ export class Utils {
         const rows = data.map(row => (header as string[]).map(field => escapeCSV(row[field])).join(","));
         return [(header as string[]).map(escapeCSV).join(","), ...rows].join("\n");
     }
+
     public static getGeneratedFileName(fileName: string, extension: string): string {
         const date = new Date();
         const year = date.getFullYear();

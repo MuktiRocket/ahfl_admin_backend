@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
-import { ApiError, errorTypes } from "../error/api-error";
-import { Env } from "../utils/env";
-import { logger } from "../utils/logger";
-import { Jwt } from "../utils/jwt";
-import { UserQueries, UserObjectIncludes } from "../queries/user-queries";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
+import { ApiError, errorTypes } from "../error/api-error";
+import { UserObjectIncludes, UserQueries } from "../queries/user-queries";
+import { Env } from "../utils/env";
+import { Jwt } from "../utils/jwt";
+import { logger } from "../utils/logger";
 
 export interface AuthUser {
     isGuest: boolean,
