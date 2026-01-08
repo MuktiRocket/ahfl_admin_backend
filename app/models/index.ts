@@ -2,6 +2,8 @@ import { AdminUser } from "./adminUser";
 import { CrmRequestData } from "./CrmRequestData";
 import { Customer } from "./customer";
 import { Token } from "./token";
+
+import { Lead } from "./lead";
 import { TransactionData } from "./TransactionData";
 
 export const MODELS = [
@@ -9,5 +11,6 @@ export const MODELS = [
     Token,
     CrmRequestData,
     TransactionData,
-    Customer
+    Customer,
+    Lead
 ];

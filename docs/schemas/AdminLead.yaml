@@ -1,0 +1,44 @@
+type: object
+properties:
+  id:
+    type: integer
+  leadActionFlag:
+    type: string
+  leadSource:
+    type: string
+  name:
+    type: string
+  lastName:
+    type: string
+  email_id:
+    type: string
+  mobile_number:
+    type: string
+  dob:
+    type: string
+  pincode:
+    type: string
+  state:
+    type: string
+  district:
+    type: string
+  branch:
+    type: string
+  product_type:
+    type: string
+  loan_amount:
+    type: string
+  period_loan_wanted:
+    type: string
+  preferred_language:
+    type: string
+  input_column_1:
+    type: string
+  create_at:
+    type: string
+    format: date-time
+  update_at:
+    type: string
+    format: date-time
+  lead_id:
+    type: string
