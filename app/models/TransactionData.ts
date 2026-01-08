@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { DateHelper } from "../utils/date-helper";
 import { Utils } from "../utils/utils";
 
@@ -7,40 +7,41 @@ export class TransactionData {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     customerId!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     mobile!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     orderId!: string;
 
-    @Column('decimal', { precision: 10, scale: 2 })
+    @Column('decimal', { precision: 10, scale: 2, nullable: true })
     amount!: string;
 
-    @Column({ length: 50 })
+    @Column({ length: 50, nullable: true })
     responseCode!: string;
 
-    @Column({ length: 255 })
+    @Column({ length: 255, nullable: true })
     responseMsg!: string;
 
-    @Column({ length: 50 })
+    @Column({ length: 50, nullable: true })
     responseStatus!: string;
 
-    @Column({ length: 50 })
+    @Column({ length: 50, nullable: true })
     mode!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     txnId!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     loanAccountNumber!: string;
 
-    @CreateDateColumn({ name: 'created_at' })
+    @Column({ name: 'createdAt', type: 'timestamp', nullable: true })
     createdAt!: Date;
 
-    @UpdateDateColumn({ name: 'updated_at' })
+    @Column({ name: 'updatedAt', type: 'timestamp', nullable: true })
+    update_at?: Date;
     updatedAt!: Date;
 
     public getAdminTransactionData() {

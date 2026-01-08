@@ -1,9 +1,7 @@
 import {
     Column,
-    CreateDateColumn,
     Entity,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
+    PrimaryGeneratedColumn
 } from 'typeorm';
 import { DateHelper } from '../utils/date-helper';
 import { Utils } from '../utils/utils';
@@ -13,55 +11,56 @@ export class CrmRequestData {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     firstName!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     lastName!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     clientId!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     contactEmailId!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     probCategory!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     contactMobileNo!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     description!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     source!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     type!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     probType!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     probSummary!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     source_AppId!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     probItem!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     changedMobile!: string;
 
-    @Column({ length: 100 })
+    @Column({ length: 100, nullable: true })
     ticketId!: string;
 
-    @CreateDateColumn({ name: 'created_at' })
+    @Column({ name: 'created_at', type: 'timestamp', nullable: true })
     createdAt!: Date;
 
-    @UpdateDateColumn({ name: 'updated_at' })
+    @Column({ name: 'updated_at', type: 'timestamp', nullable: true })
+    update_at?: Date;
     updatedAt!: Date;
 
     public getAdminCrmRequest() {

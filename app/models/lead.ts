@@ -53,10 +53,10 @@ export class Lead {
     @Column({ length: 255, nullable: true })
     input_column_1?: string;
 
-    @Column({ name: 'create_at', type: 'timestamp', nullable: true })
+    @Column({ name: 'created_at', type: 'timestamp', nullable: true })
     create_at?: Date;
 
-    @Column({ name: 'update_at', type: 'timestamp', nullable: true })
+    @Column({ name: 'updated_at', type: 'timestamp', nullable: true })
     update_at?: Date;
 
     @Column({ length: 100, nullable: true })
