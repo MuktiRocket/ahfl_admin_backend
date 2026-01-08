@@ -708,12 +708,106 @@
         }
       }
     },
-    "/admin-transaction/download-csv": {
+    "/admin-lead/leads": {
+      "summary": "Get list of Lead Data",
       "get": {
-        "summary": "Get list of Transaction Data (CSV Download)",
         "tags": [
-          "Admin Transactions"
+          "Admin Lead"
         ],
+        "summary": "Get list of Lead Data",
+        "description": "Returns a paginated list of lead data",
+        "operationId": "getLeads",
+        "security": [
+          {
+            "BearerAuthorizationTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of items per page"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Offset for pagination"
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query"
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "End date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of leads",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AdminLead"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/admin-lead/leads/download-csv": {
+      "summary": "Download Lead Data as CSV",
+      "get": {
+        "tags": [
+          "Admin Lead"
+        ],
+        "summary": "Download Lead Data as CSV",
+        "description": "Returns a CSV file containing lead data",
+        "operationId": "downloadLeadCsv",
         "security": [
           {
             "BearerAuthorizationTokenAuth": []
@@ -726,13 +820,30 @@
             "schema": {
               "type": "string"
             },
-            "required": false,
-            "description": "Search across customerId, mobile, orderId, txnId, loanAccountNumber, responseCode, responseMsg, responseStatus, mode, txnId and loanAccountNumber\n"
+            "description": "Search query"
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "End date (YYYY-MM-DD)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Transaction data CSV file generated successfully",
+            "description": "Lead data CSV file generated successfully",
             "content": {
               "text/csv": {
                 "schema": {
@@ -747,6 +858,48 @@
           },
           "500": {
             "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/admin-lead/details": {
+      "summary": "Get details for a Lead",
+      "post": {
+        "tags": [
+          "Admin Lead"
+        ],
+        "summary": "Get details for a Lead",
+        "description": "Returns detailed information for a single lead by ID",
+        "operationId": "getLeadDetails",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Lead ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lead details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLead"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Lead not found"
           }
         }
       }
@@ -1102,6 +1255,73 @@
             "type": "string",
             "format": "date-time",
             "example": "24-Dec-2025 11:20:45"
+          }
+        }
+      },
+      "AdminLead": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "leadActionFlag": {
+            "type": "string"
+          },
+          "leadSource": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email_id": {
+            "type": "string"
+          },
+          "mobile_number": {
+            "type": "string"
+          },
+          "dob": {
+            "type": "string"
+          },
+          "pincode": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "product_type": {
+            "type": "string"
+          },
+          "loan_amount": {
+            "type": "string"
+          },
+          "period_loan_wanted": {
+            "type": "string"
+          },
+          "preferred_language": {
+            "type": "string"
+          },
+          "input_column_1": {
+            "type": "string"
+          },
+          "create_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "update_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lead_id": {
+            "type": "string"
           }
         }
       },

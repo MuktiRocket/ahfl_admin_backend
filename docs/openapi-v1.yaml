@@ -54,6 +54,14 @@ paths:
   /admin-transaction/download-csv:
     $ref: ./paths/admin_transactions_download_csv.yaml
 
+  # Admin Lead endpoints
+  /admin-lead/leads:
+    $ref: ./paths/admin_lead.yaml
+  /admin-lead/leads/download-csv:
+    $ref: ./paths/admin_lead_download_csv.yaml
+  /admin-lead/details:
+    $ref: ./paths/admin_lead_details.yaml
+
   # Admin customer data
   /admin-customer/customers-list:
     $ref: ./paths/admin_customer.yaml

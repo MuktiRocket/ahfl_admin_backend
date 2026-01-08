@@ -58,6 +58,9 @@ export abstract class Controller {
         if (!options.isPublic && options.routeType == "authUserRoute")
             beforeHandlers.push(AuthHandler.authenticateUser(options.userObjectIncludes || []));
 
+        if (!options.isPublic && options.routeType == "authAdminUserRoute")
+            beforeHandlers.push(AuthHandler.authenticateUser(options.userObjectIncludes || []));
+
         // validate by default!
         if (options.validate !== false) {
             beforeHandlers.push(this.validateRequest(method, path));
