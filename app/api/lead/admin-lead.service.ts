@@ -29,6 +29,7 @@ export class AdminLeadService {
                 qb.where('top_up_apply_loan_data.mobile_number LIKE :q', { q })
                     .orWhere('top_up_apply_loan_data.email_id LIKE :q', { q })
                     .orWhere('top_up_apply_loan_data.name LIKE :q', { q })
+                    .orWhere('top_up_apply_loan_data.create_at LIKE :q', { q })
                     .orWhere('top_up_apply_loan_data.lead_id LIKE :q', { q });
             })
         );
