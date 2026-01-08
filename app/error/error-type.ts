@@ -25,6 +25,7 @@ export interface ErrorTypes {
     loanDoesNotExists: ErrorType;
     invalidHash: ErrorType;
     paymentNotFound: ErrorType;
+    transactionNotFound: ErrorType;
     reportDoesNotExist: ErrorType;
     reqiredBothFromDateAndToDate: ErrorType;
     lmsError: ErrorType;

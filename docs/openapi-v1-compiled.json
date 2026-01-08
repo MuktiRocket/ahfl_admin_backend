@@ -751,6 +751,133 @@
         }
       }
     },
+    "/admin-transaction/details": {
+      "post": {
+        "summary": "Get transaction details by ID",
+        "tags": [
+          "Admin Transactions"
+        ],
+        "security": [
+          {
+            "BearerAuthorizationTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "12",
+                    "description": "Transaction ID from payment_details table"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 101
+                    },
+                    "customerId": {
+                      "type": "string",
+                      "example": "CUST_001"
+                    },
+                    "mobile": {
+                      "type": "string",
+                      "example": "9876543210"
+                    },
+                    "orderId": {
+                      "type": "string",
+                      "example": "ORD_12345"
+                    },
+                    "amount": {
+                      "type": "string",
+                      "example": "1500.75"
+                    },
+                    "responseCode": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "responseMsg": {
+                      "type": "string",
+                      "example": "Transaction Successful"
+                    },
+                    "responseStatus": {
+                      "type": "string",
+                      "example": "SUCCESS"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "example": "NETBANKING"
+                    },
+                    "txnId": {
+                      "type": "string",
+                      "example": "TXN_987654"
+                    },
+                    "loanAccountNumber": {
+                      "type": "string",
+                      "example": "LN_456789"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-10T14:30:00+05:30"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-01-11T10:15:00+05:30"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "description": "Transaction not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "transactionNotFound"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
     "/admin-customer/customers-list": {
       "get": {
         "summary": "Get list of customers",

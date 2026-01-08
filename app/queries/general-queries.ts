@@ -2,6 +2,7 @@ import { ObjectLiteral, SelectQueryBuilder } from "typeorm";
 import { Database } from "../database";
 import { CrmRequestData } from "../models/CrmRequestData";
 import { Customer } from "../models/customer";
+import { TransactionData } from "../models/TransactionData";
 
 type DateInput = string | Date;
 export enum IntervalUnit {
@@ -41,5 +42,12 @@ export class GeneralQueries {
             .where(`user_data.${field} = :value`, { value });
         const crmDetail = await queryBuilder.getOne();
         return crmDetail;
+    }
+
+    public static async getTransactionDetails(field: 'id', value: string): Promise<TransactionData | null> {
+        const queryBuilder = Database.manager.createQueryBuilder(TransactionData, 'payment_details')
+            .where(`payment_details.${field} = :value`, { value });
+        const transactionDetail = await queryBuilder.getOne();
+        return transactionDetail;
     }
 }

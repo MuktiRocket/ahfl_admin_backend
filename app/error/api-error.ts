@@ -127,6 +127,11 @@ export const errorTypes: ErrorTypes = {
         httpStatus: 400,
         message: 'Payment not found please check the payment Id'
     },
+    transactionNotFound: {
+        type: 'transactionNotFound',
+        httpStatus: 404,
+        message: 'Transaction not found, please check the transaction ID.'
+    },
     reportDoesNotExist: {
         type: 'reportDoesNotExist',
         httpStatus: 404,
