@@ -1,0 +1,28 @@
+get:
+  summary: Get list of Transaction Data (CSV Download)
+  tags:
+    - Admin Transactions
+  security:
+    - BearerAuthorizationTokenAuth: []
+  parameters:
+    - in: query
+      name: query
+      schema:
+        type: string
+      required: false
+      description: >
+        Search across customerId, mobile, orderId, txnId,
+        loanAccountNumber, responseCode, responseMsg,
+        responseStatus, mode, txnId and loanAccountNumber
+  responses:
+    '200':
+      description: Transaction data CSV file generated successfully
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
+    "401":
+      $ref: ../errors/unauthorized.yaml
+    "500":
+      $ref: ../errors/internalServerError.yaml
