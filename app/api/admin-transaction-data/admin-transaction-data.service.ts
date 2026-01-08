@@ -45,14 +45,13 @@ export class AdminTransactionDataService {
     }
 
     private static getQueryBuilder(params: AdminTransactionDataParams, manager: EntityManager = Database.manager): SelectQueryBuilder<TransactionData> {
-
         const queryBuilder = manager.createQueryBuilder(TransactionData, 'payment_details');
 
         this.applyCreatedAtFilter(queryBuilder, params);
 
         this.applyQueryFilter(queryBuilder, params);
 
-        queryBuilder.orderBy('payment_details.createdAt', 'DESC');
+        queryBuilder.orderBy('payment_details.id', 'ASC');
 
         return queryBuilder;
     }

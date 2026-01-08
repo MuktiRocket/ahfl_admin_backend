@@ -53,6 +53,8 @@ paths:
     $ref: ./paths/admin_transactions.yaml
   /admin-transaction/download-csv:
     $ref: ./paths/admin_transactions_download_csv.yaml
+  /admin-transaction/details:
+    $ref: ./paths/admin_transactions_details.yaml
 
   # Admin Lead endpoints
   /admin-lead/leads:

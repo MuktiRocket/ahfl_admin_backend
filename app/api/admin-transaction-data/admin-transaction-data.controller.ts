@@ -6,6 +6,7 @@ import { AdminTransactionDataParams, AdminTransactionDataService } from "./admin
 import { DateHelper } from "../../utils/date-helper";
 import { ApiError, errorTypes } from "../../error/api-error";
 import { HeaderHelper } from "../../utils/header-helper";
+import { GeneralQueries } from "../../queries/general-queries";
 
 export class AdminTransactionDataController extends Controller {
     protected name: string = "admin-transaction";
@@ -13,6 +14,7 @@ export class AdminTransactionDataController extends Controller {
     protected createRoutes(): void {
         this.authenticatedAdminRoute(RequestMethod.GET, '/transactions', this.getAllTransactions.bind(this), { encrypt: false });
         this.authenticatedAdminRoute(RequestMethod.GET, '/download-csv', this.downloadTransactionRequestsCsv.bind(this), { encrypt: false });
+        this.authenticatedAdminRoute(RequestMethod.POST, '/details', this.transactionDetails.bind(this), { encrypt: false });
     }
 
     private async getAllTransactions(req: Request, res: Response): Promise<void> {
@@ -33,9 +35,18 @@ export class AdminTransactionDataController extends Controller {
         const customers = await AdminTransactionDataService.getAllCustomersForCsv(params);
         const csvData = customers.map(c => c.getTransactionCsvData());
         const csv = Utils.csvGenerator(csvData);
-        const fileName = Utils.getGeneratedFileName("getTransactionData", "csv");
+        const fileName = Utils.getGeneratedFileName("transaction", "csv");
 
         HeaderHelper.setCsvDownloadHeaders(res, fileName);
         res.send('\uFEFF' + csv);
+    }
+
+    private async transactionDetails(req: Request, res: Response): Promise<void> {
+        const { id }: { id: string } = req.body;
+        const transaction = await GeneralQueries.getTransactionDetails('id', id);
+        if (!transaction) {
+            throw new ApiError(errorTypes.transactionNotFound);
+        }
+        res.json(transaction.getAdminTransactionData());
     }
 }
