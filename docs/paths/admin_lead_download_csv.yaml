@@ -1,0 +1,41 @@
+summary: Download Lead Data as CSV
+get:
+  tags:
+    - Admin Lead
+  summary: Download Lead Data as CSV
+  description: Returns a CSV file containing lead data
+  operationId: downloadLeadCsv
+  security:
+    - BearerAuthorizationTokenAuth: []
+  parameters:
+    - in: query
+      name: query
+      schema:
+        type: string
+      description: Search query
+    - in: query
+      name: from
+      schema:
+        type: string
+        format: date
+      description: Start date (YYYY-MM-DD)
+    - in: query
+      name: to
+      schema:
+        type: string
+        format: date
+      description: End date (YYYY-MM-DD)
+  responses:
+    '200':
+      description: Lead data CSV file generated successfully
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
+
+    "401":
+      $ref: ../errors/unauthorized.yaml
+
+    "500":
+      $ref: ../errors/internalServerError.yaml

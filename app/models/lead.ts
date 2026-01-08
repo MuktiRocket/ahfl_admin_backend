@@ -86,4 +86,29 @@ export class Lead {
             lead_id: this.lead_id
         };
     }
+
+    public getLeadCsvData() {
+        return {
+            id: this.id ?? '',
+            leadActionFlag: this.leadActionFlag ?? '',
+            leadSource: this.leadSource ?? '',
+            name: this.name ?? '',
+            lastName: this.lastName ?? '',
+            email_id: this.email_id ?? '',
+            mobile_number: this.mobile_number ?? '',
+            dob: this.dob ?? '',
+            pincode: this.pincode ?? '',
+            state: this.state ?? '',
+            district: this.district ?? '',
+            branch: this.branch ?? '',
+            product_type: this.product_type ?? '',
+            loan_amount: this.loan_amount ?? '',
+            period_loan_wanted: this.period_loan_wanted ?? '',
+            preferred_language: this.preferred_language ?? '',
+            input_column_1: this.input_column_1 ?? '',
+            create_at: this.create_at ?? '',
+            update_at: this.update_at ?? '',
+            lead_id: this.lead_id ?? ''
+        };
+    }
 }

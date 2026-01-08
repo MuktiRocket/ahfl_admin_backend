@@ -1,0 +1,26 @@
+summary: Get details for a Lead
+post:
+  tags:
+    - Admin Lead
+  summary: Get details for a Lead
+  description: Returns detailed information for a single lead by ID
+  operationId: getLeadDetails
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Lead ID
+  responses:
+    '200':
+      description: Lead details
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/AdminLead.yaml'
+    '404':
+      description: Lead not found
