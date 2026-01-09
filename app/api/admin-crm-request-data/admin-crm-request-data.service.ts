@@ -1,7 +1,6 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
 import { CrmRequestData } from "../../models/CrmRequestData";
-import { GeneralQueries } from "../../queries/general-queries";
 import { PaginationParams } from "../controller";
 
 export interface AdminCRMRequestParams {
@@ -69,9 +68,6 @@ export class AdminCRMRequestService {
 
     public static async getAllCrmRequestsForCsv(params: AdminCRMRequestParams): Promise<CrmRequestData[]> {
         const queryBuilder = this.getQueryBuilder(params);
-
-        GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.from, toDate: params.to });
-
         return await queryBuilder.getMany();
     }
 }

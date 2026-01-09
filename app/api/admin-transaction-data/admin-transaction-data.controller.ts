@@ -32,8 +32,8 @@ export class AdminTransactionDataController extends Controller {
             throw new ApiError(errorTypes.invalidParameters, { message: "Date range more than 1 year is not allow." });
         }
 
-        const customers = await AdminTransactionDataService.getAllCustomersForCsv(params);
-        const csvData = customers.map(c => c.getTransactionCsvData());
+        const transactions = await AdminTransactionDataService.getAllTransactionsForCsv(params);
+        const csvData = transactions.map(c => c.getTransactionCsvData());
         const csv = Utils.csvGenerator(csvData);
         const fileName = Utils.getGeneratedFileName("transaction", "csv");
 

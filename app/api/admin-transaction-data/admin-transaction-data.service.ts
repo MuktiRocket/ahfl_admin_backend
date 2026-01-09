@@ -61,7 +61,7 @@ export class AdminTransactionDataService {
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }
 
-    public static async getAllCustomersForCsv(params: AdminTransactionDataParams): Promise<TransactionData[]> {
+    public static async getAllTransactionsForCsv(params: AdminTransactionDataParams): Promise<TransactionData[]> {
         const queryBuilder = this.getQueryBuilder(params);
         return await queryBuilder.getMany();
     }
