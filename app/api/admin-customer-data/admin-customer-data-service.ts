@@ -17,10 +17,10 @@ export class AdminCustomerDataService {
         const to = params.to;
 
         if (from)
-            qb.andWhere('payment_details.createdAt >= :from', { from: `${from} 00:00:00` });
+            qb.andWhere('user_data.createdAt >= :from', { from: `${from} 00:00:00` });
 
         if (to)
-            qb.andWhere('payment_details.createdAt <= :to', { to: `${to} 23:59:59` });
+            qb.andWhere('user_data.createdAt <= :to', { to: `${to} 23:59:59` });
     }
 
     private static applyQueryFilter(queryBuilder: SelectQueryBuilder<Customer>, params: AdminCustomerDataParams) {
