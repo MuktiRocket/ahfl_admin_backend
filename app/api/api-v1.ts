@@ -4,6 +4,8 @@ import { AdminCRMRequestController } from './admin-crm-request-data/admin-crm-re
 import { AdminCustomerDataController } from './admin-customer-data/admin-customer-data-controller';
 import { AdminTransactionDataController } from './admin-transaction-data/admin-transaction-data.controller';
 
+import { AdminAuditController } from './admin-audit/admin-audit-controller';
+import { AdminFeedbackController } from './admin-feedback/admin-feedback-controller';
 import { Api, ApiVersion } from "./api";
 import { HealthController } from "./health/health-controller";
 import { AdminLeadController } from "./lead/admin-lead.controller";
@@ -19,6 +21,8 @@ export class ApiV1 extends Api {
         this.controllers.push(new AdminTransactionDataController());
         this.controllers.push(new AdminCustomerDataController());
         this.controllers.push(new AdminLeadController());
+        this.controllers.push(new AdminFeedbackController());
+        this.controllers.push(new AdminAuditController());
     }
 
     public addRoutes(app: Express): void {

@@ -1312,6 +1312,271 @@
           }
         }
       }
+    },
+    "/admin-feedback/list": {
+      "summary": "Get list of Feedback Data",
+      "get": {
+        "tags": [
+          "Admin Feedback"
+        ],
+        "summary": "Get list of Feedback Data",
+        "description": "Returns a paginated list of feedback data",
+        "operationId": "getFeedbackList",
+        "security": [
+          {
+            "BearerAuthorizationTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of items per page"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Offset for pagination"
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by mobile, user id, or comment"
+          },
+          {
+            "in": "query",
+            "name": "rating",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "description": "Filter by rating"
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "End date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of feedback",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "example": 120
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Feedback"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/admin-audit/list": {
+      "summary": "Get list of Audit Trail Data",
+      "get": {
+        "tags": [
+          "Admin Audit Trail"
+        ],
+        "summary": "Get list of Audit Trail Data",
+        "description": "Returns a paginated list of audit trail data",
+        "operationId": "getAuditTrailList",
+        "security": [
+          {
+            "BearerAuthorizationTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of items per page"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Offset for pagination"
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by mobile, uid, category, or remark"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by audit category"
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "End date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of audit trail records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "example": 85
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AuditTrail"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/admin-audit/download-csv": {
+      "get": {
+        "summary": "Get list of Audit Trail Data (CSV Download)",
+        "tags": [
+          "Admin Audit Trail"
+        ],
+        "security": [
+          {
+            "BearerAuthorizationTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Search audit trail by uid, mobile, category, and remark"
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": false,
+            "description": "Start date for filtering audit trail records (ISO 8601 format)"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": false,
+            "description": "End date for filtering audit trail records (ISO 8601 format)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit trail CSV file generated successfully",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1492,6 +1757,77 @@
           },
           "lead_id": {
             "type": "string"
+          }
+        }
+      },
+      "Feedback": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "user_id": {
+            "type": "string",
+            "example": "2407492"
+          },
+          "mobile": {
+            "type": "string",
+            "example": "8861523546"
+          },
+          "rating": {
+            "type": "integer",
+            "example": 4
+          },
+          "comment": {
+            "type": "string",
+            "example": "Good service"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-01-10T10:30:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-01-10T11:00:00"
+          }
+        }
+      },
+      "AuditTrail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 41
+          },
+          "mobile": {
+            "type": "string",
+            "example": "9876543210"
+          },
+          "uid": {
+            "type": "string",
+            "example": "CUST_508041"
+          },
+          "category": {
+            "type": "string",
+            "example": "LOGIN"
+          },
+          "remark": {
+            "type": "string",
+            "example": "User logged in successfully"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-01-08T13:51:34"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-01-08T13:52:00"
           }
         }
       },

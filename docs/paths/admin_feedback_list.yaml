@@ -1,0 +1,73 @@
+summary: Get list of Feedback Data
+get:
+  tags:
+    - Admin Feedback
+  summary: Get list of Feedback Data
+  description: Returns a paginated list of feedback data
+  operationId: getFeedbackList
+  security:
+    - BearerAuthorizationTokenAuth: []
+  parameters:
+    - in: query
+      name: limit
+      schema:
+        type: integer
+        default: 10
+      description: Number of items per page
+
+    - in: query
+      name: offset
+      schema:
+        type: integer
+        default: 0
+      description: Offset for pagination
+
+    - in: query
+      name: query
+      schema:
+        type: string
+      description: Search by mobile, user id, or comment
+
+    - in: query
+      name: rating
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 5
+      description: Filter by rating
+
+    - in: query
+      name: from
+      schema:
+        type: string
+        format: date
+      description: Start date (YYYY-MM-DD)
+
+    - in: query
+      name: to
+      schema:
+        type: string
+        format: date
+      description: End date (YYYY-MM-DD)
+
+  responses:
+    "200":
+      description: List of feedback
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+                example: 120
+              data:
+                type: array
+                items:
+                  $ref: "../schemas/Feedback.yaml"
+
+    "401":
+      $ref: ../errors/unauthorized.yaml
+
+    "500":
+      $ref: ../errors/internalServerError.yaml

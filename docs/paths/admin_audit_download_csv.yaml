@@ -1,0 +1,45 @@
+get:
+  summary: Get list of Audit Trail Data (CSV Download)
+  tags:
+    - Admin Audit Trail
+  security:
+    - BearerAuthorizationTokenAuth: []
+
+  parameters:
+    - in: query
+      name: query
+      schema:
+        type: string
+      required: false
+      description: Search audit trail by uid, mobile, category, and remark
+
+    - in: query
+      name: from
+      schema:
+        type: string
+        format: date
+      required: false
+      description: Start date for filtering audit trail records (ISO 8601 format)
+
+    - in: query
+      name: to
+      schema:
+        type: string
+        format: date
+      required: false
+      description: End date for filtering audit trail records (ISO 8601 format)
+
+  responses:
+    "200":
+      description: Audit trail CSV file generated successfully
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
+
+    "401":
+      $ref: ../errors/unauthorized.yaml
+
+    "500":
+      $ref: ../errors/internalServerError.yaml

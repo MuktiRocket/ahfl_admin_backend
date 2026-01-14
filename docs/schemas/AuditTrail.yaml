@@ -1,0 +1,32 @@
+type: object
+properties:
+  id:
+    type: integer
+    example: 41
+
+  mobile:
+    type: string
+    example: "9876543210"
+
+  uid:
+    type: string
+    example: "CUST_508041"
+
+  category:
+    type: string
+    example: "LOGIN"
+
+  remark:
+    type: string
+    example: "User logged in successfully"
+
+  created_at:
+    type: string
+    format: date-time
+    example: "2026-01-08T13:51:34"
+
+  updated_at:
+    type: string
+    format: date-time
+    nullable: true
+    example: "2026-01-08T13:52:00"
