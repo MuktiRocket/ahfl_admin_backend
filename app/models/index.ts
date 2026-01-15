@@ -3,6 +3,7 @@ import { CrmRequestData } from "./CrmRequestData";
 import { Customer } from "./customer";
 import { Token } from "./token";
 
+import { ApplyLoanData } from "./apply-loan";
 import { AuditTrail } from "./audit-trail";
 import { Feedback } from "./feedback";
 import { Lead } from "./lead";
@@ -16,5 +17,6 @@ export const MODELS = [
     Customer,
     Lead,
     Feedback,
-    AuditTrail
+    AuditTrail,
+    ApplyLoanData
 ];
