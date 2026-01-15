@@ -5,7 +5,7 @@ import { HeaderHelper } from "../../utils/header-helper";
 import { Utils } from "../../utils/utils";
 import { Controller, DEFAULT_ADMIN_PAGINATION_LIMIT, PaginationParams } from "../controller";
 import { RequestMethod } from "../request-method";
-import { AdminAuditTrailParams, AdminAuditTrailService } from "./admin-audit-service";
+import { AdminAuditTrailParams, AdminAuditTrailService } from "./admin-audit.service";
 
 export class AdminAuditController extends Controller {
     protected name: string = "admin-audit";

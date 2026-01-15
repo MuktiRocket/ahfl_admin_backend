@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Utils } from "../../utils/utils";
 import { Controller, DEFAULT_ADMIN_PAGINATION_LIMIT, PaginationParams } from "../controller";
 import { RequestMethod } from "../request-method";
-import { AdminFeedbackParams, AdminFeedbackService } from "./admin-feedback-service";
+import { AdminFeedbackParams, AdminFeedbackService } from "./admin-feedback.service";
 
 export class AdminFeedbackController extends Controller {
     protected name: string = "admin-feedback";

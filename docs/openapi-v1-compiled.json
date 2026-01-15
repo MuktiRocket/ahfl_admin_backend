@@ -1577,6 +1577,262 @@
           }
         }
       }
+    },
+    "/admin-apply-loan/list": {
+      "summary": "Get list of Apply Loan Data",
+      "get": {
+        "tags": [
+          "Admin New Loan"
+        ],
+        "summary": "Get list of Apply Loan Data",
+        "description": "Returns a paginated list of apply loan data",
+        "operationId": "getApplyLoanList",
+        "security": [
+          {
+            "BearerAuthorizationTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of items per page"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Offset for pagination"
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by first name, last name, clientId, email, mobile, lead id, source, type, category, or description"
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "End date (YYYY-MM-DD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of apply loan records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalCount": {
+                      "type": "integer",
+                      "example": 120
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ApplyLoan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/admin-apply-loan/download-csv": {
+      "get": {
+        "tags": [
+          "Admin New Loan"
+        ],
+        "summary": "Get list of Apply Loan Data (CSV Download)",
+        "description": "Download apply loan data in CSV format based on applied filters",
+        "operationId": "downloadApplyLoanCsv",
+        "security": [
+          {
+            "BearerAuthorizationTokenAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Search apply loan details by first name, last name, clientId, email, mobile number, lead id, source, type, category, or description\n"
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": false,
+            "description": "Start date for filtering apply loan records (ISO 8601 format)"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": false,
+            "description": "End date for filtering apply loan records (ISO 8601 format)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Apply loan CSV file generated successfully",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
+    },
+    "/admin-apply-loan/details": {
+      "post": {
+        "tags": [
+          "Admin New Loan"
+        ],
+        "summary": "Get Apply Loan Details",
+        "description": "Fetch detailed information of a specific apply loan record.\n",
+        "operationId": "getApplyLoanDetails",
+        "security": [
+          {
+            "BearerAuthorizationTokenAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 16,
+                    "description": "Unique apply loan record ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Apply loan details fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ApplyLoan"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Either id or lead_id is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "description": "Apply loan data not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Apply loan data not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1828,6 +2084,86 @@
             "format": "date-time",
             "nullable": true,
             "example": "2026-01-08T13:52:00"
+          }
+        }
+      },
+      "ApplyLoan": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 16
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Rahul"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Sharma"
+          },
+          "clientId": {
+            "type": "string",
+            "example": "CLNT_987654"
+          },
+          "contactEmailId": {
+            "type": "string",
+            "example": "rahul.sharma@example.com"
+          },
+          "contactMobileNo": {
+            "type": "string",
+            "example": "9876543210"
+          },
+          "probCategory": {
+            "type": "string",
+            "example": "LOAN_APPLICATION"
+          },
+          "description": {
+            "type": "string",
+            "example": "Applied for home loan"
+          },
+          "source": {
+            "type": "string",
+            "example": "WEB"
+          },
+          "type": {
+            "type": "string",
+            "example": "HOME_LOAN"
+          },
+          "probType": {
+            "type": "string",
+            "example": "NEW_APPLICATION"
+          },
+          "probSummary": {
+            "type": "string",
+            "example": "Home loan apply request"
+          },
+          "probItem": {
+            "type": "string",
+            "example": "HL_001"
+          },
+          "source_Appld": {
+            "type": "string",
+            "example": "CUSTOMER_APP"
+          },
+          "lead_id": {
+            "type": "string",
+            "example": "LEAD_123456"
+          },
+          "category": {
+            "type": "string",
+            "example": "APPLY_LOAN"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-01-08T13:51:34"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-01-08T13:55:10"
           }
         }
       },

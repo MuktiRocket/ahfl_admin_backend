@@ -7,7 +7,7 @@ import { Jwt } from '../../utils/jwt';
 import { logger } from '../../utils/logger';
 import { Controller } from "../controller";
 import { RequestMethod } from "../request-method";
-import { AdminAuthService } from './admin-auth-service';
+import { AdminAuthService } from './admin-auth.service';
 
 interface ValidateLoginParams {
     email: string;

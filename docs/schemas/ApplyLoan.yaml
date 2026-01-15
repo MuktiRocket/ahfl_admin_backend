@@ -1,0 +1,76 @@
+type: object
+properties:
+  id:
+    type: integer
+    example: 16
+
+  firstName:
+    type: string
+    example: "Rahul"
+
+  lastName:
+    type: string
+    example: "Sharma"
+
+  clientId:
+    type: string
+    example: "CLNT_987654"
+
+  contactEmailId:
+    type: string
+    example: "rahul.sharma@example.com"
+
+  contactMobileNo:
+    type: string
+    example: "9876543210"
+
+  probCategory:
+    type: string
+    example: "LOAN_APPLICATION"
+
+  description:
+    type: string
+    example: "Applied for home loan"
+
+  source:
+    type: string
+    example: "WEB"
+
+  type:
+    type: string
+    example: "HOME_LOAN"
+
+  probType:
+    type: string
+    example: "NEW_APPLICATION"
+
+  probSummary:
+    type: string
+    example: "Home loan apply request"
+
+  probItem:
+    type: string
+    example: "HL_001"
+
+  source_Appld:
+    type: string
+    example: "CUSTOMER_APP"
+
+  lead_id:
+    type: string
+    example: "LEAD_123456"
+
+  category:
+    type: string
+    example: "APPLY_LOAN"
+
+  created_at:
+    type: string
+    format: date-time
+    example: "2026-01-08T13:51:34"
+
+  updated_at:
+    type: string
+    format: date-time
+    nullable: true
+    example: "2026-01-08T13:55:10"

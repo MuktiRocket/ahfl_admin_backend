@@ -81,3 +81,11 @@ paths:
     $ref: ./paths/admin_audit_list.yaml
   /admin-audit/download-csv:
     $ref: ./paths/admin_audit_download_csv.yaml
+
+  # Admin Lead endpoints
+  /admin-apply-loan/list:
+    $ref: ./paths/admin_apply_loan_list.yaml
+  /admin-apply-loan/download-csv:
+    $ref: ./paths/admin_apply_loan_download_csv.yaml
+  /admin-apply-loan/details:
+    $ref: ./paths/admin_apply_loan_details.yaml
