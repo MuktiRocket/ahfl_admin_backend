@@ -25,12 +25,16 @@ export class AdminApplyLoanService {
         if (!params.query) return;
         const q = `%${params.query}%`;
         queryBuilder.andWhere(
-            new Brackets(qb => {
-                qb.where('apply_loan_data.mobile_number LIKE :q', { q })
-                    .orWhere('apply_loan_data.email_id LIKE :q', { q })
-                    .orWhere('apply_loan_data.name LIKE :q', { q })
-                    .orWhere('apply_loan_data.create_at LIKE :q', { q })
-                    .orWhere('apply_loan_data.lead_id LIKE :q', { q });
+            new Brackets((qb) => {
+                qb.where('apply_loan_data.contactMobileNo LIKE :q', { q })
+                    .orWhere('apply_loan_data.lead_id LIKE :q', { q })
+                    .orWhere('apply_loan_data.firstName LIKE :q', { q })
+                    .orWhere('apply_loan_data.lastName LIKE :q', { q })
+                    .orWhere(
+                        "CONCAT(apply_loan_data.firstName, ' ', apply_loan_data.lastName) LIKE :q",
+                        { q }
+                    )
+                    .orWhere('apply_loan_data.created_at LIKE :q', { q }); // ✅ FIXED
             })
         );
     }
