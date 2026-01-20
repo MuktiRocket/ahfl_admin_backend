@@ -1,7 +1,7 @@
 {
-  "name": "hhfl-customer-app-backend",
+  "name": "ahfl-customer-app-backend",
   "version": "1.0.0",
-  "description": "HHFL Backend to manage the customer facing frontends (Mobie app & admin panel) applications",
+  "description": "AHFL Backend to manage the customer facing frontends (Mobie app & admin panel) applications",
   "main": "build/index.js",
   "scripts": {
     "start": "node .",
