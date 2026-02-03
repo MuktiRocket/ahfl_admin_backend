@@ -1,26 +1,27 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
 import { Feedback } from "../../models/feedback";
+import { GeneralQueries } from "../../queries/general-queries";
 import { PaginationParams } from "../controller";
 
 export interface AdminFeedbackParams {
     query?: string;
-    from?: string;
-    to?: string;
+    fromDate?: string;
+    toDate?: string;
     limit?: number;
     offset?: number;
 }
 
 export class AdminFeedbackService {
     private static applyCreatedAtFilter(qb: SelectQueryBuilder<Feedback>, params: AdminFeedbackParams) {
-        const from = params.from;
-        const to = params.to;
+        const fromDate = params.fromDate;
+        const toDate = params.toDate;
 
-        if (from)
-            qb.andWhere('feedback.created_at >= :from', { from: `${from} 00:00:00` });
+        if (fromDate)
+            qb.andWhere('feedback.created_at >= :from', { from: `${fromDate} 00:00:00` });
 
-        if (to)
-            qb.andWhere('feedback.created_at <= :to', { to: `${to} 23:59:59` });
+        if (toDate)
+            qb.andWhere('feedback.created_at <= :to', { to: `${toDate} 23:59:59` });
     }
 
     private static applyQueryFilter(queryBuilder: SelectQueryBuilder<Feedback>, params: AdminFeedbackParams) {
@@ -53,14 +54,14 @@ export class AdminFeedbackService {
 
     public static async getAllFeedbackData(params: AdminFeedbackParams, paginationParams: PaginationParams): Promise<[Feedback[], number]> {
         const qb = this.getQueryBuilder(params);
-
+        GeneralQueries.addDateRangeFilter(qb, 'feedback', { fromDate: params.fromDate, toDate: params.toDate }, 'created_at');
         return await qb.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }
 
     public static async getAllFeedbacksForCsv(params: AdminFeedbackParams): Promise<Feedback[]> {
         const queryBuilder = this.getQueryBuilder(params);
 
-        // GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.from, toDate: params.to });
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'feedback', { fromDate: params.fromDate, toDate: params.toDate });
 
         return await queryBuilder.getMany();
     }

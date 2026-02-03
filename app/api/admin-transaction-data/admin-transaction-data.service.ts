@@ -59,12 +59,13 @@ export class AdminTransactionDataService {
 
     public static async getAllTransactionData(params: AdminTransactionDataParams, paginationParams: PaginationParams): Promise<[TransactionData[], number]> {
         const queryBuilder = this.getQueryBuilder(params);
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'payment_details', { fromDate: params.from, toDate: params.to });
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }
 
     public static async getAllTransactionsForCsv(params: AdminTransactionDataParams): Promise<TransactionData[]> {
         const queryBuilder = this.getQueryBuilder(params);
-        GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.from, toDate: params.to });
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'payment_details', { fromDate: params.from, toDate: params.to });
         return await queryBuilder.getMany();
     }
 }

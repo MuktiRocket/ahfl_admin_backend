@@ -64,6 +64,7 @@ export class AdminCRMRequestService {
 
     public static async getAllCrmData(params: AdminCRMRequestParams, paginationParams: PaginationParams): Promise<[CrmRequestData[], number]> {
         const queryBuilder = this.getQueryBuilder(params);
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.fromDate, toDate: params.toDate });
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }
 
