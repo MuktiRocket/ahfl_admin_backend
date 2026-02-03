@@ -1,6 +1,7 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
 import { Customer } from "../../models/customer";
+import { GeneralQueries } from "../../queries/general-queries";
 import { PaginationParams } from "../controller";
 
 export interface AdminCustomerDataParams {
@@ -61,7 +62,7 @@ export class AdminCustomerDataService {
     public static async getAllCustomersForCsv(params: AdminCustomerDataParams): Promise<Customer[]> {
         const queryBuilder = this.getQueryBuilder(params);
 
-        // GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.from, toDate: params.to });
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'user_data', { fromDate: params.from, toDate: params.to });
 
         return await queryBuilder.getMany();
     }

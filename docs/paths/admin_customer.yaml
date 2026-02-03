@@ -12,6 +12,20 @@ get:
         type: string
       required: false
       description: Global search across uid, mobile number, loan account number, DOB and customer data
+    - in: query
+      name: fromDate
+      schema:
+        type: string
+        format: date
+      required: false
+      description: Start date for filtering api-errors (ISO 8601 format)
+    - in: query
+      name: toDate
+      schema:
+        type: string
+        format: date
+      required: false
+      description: end date for filtering api-errors (ISO 8601 format)
     - $ref: ../parameters/paginationLimit.yaml
     - $ref: ../parameters/paginationOffset.yaml
 

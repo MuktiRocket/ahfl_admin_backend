@@ -329,25 +329,23 @@
           },
           {
             "in": "query",
-            "name": "from",
+            "name": "fromDate",
             "schema": {
               "type": "string",
-              "format": "date",
-              "example": "2025-12-27"
+              "format": "date"
             },
             "required": false,
-            "description": "Filter CRM requests created on or after this date (YYYY-MM-DD)"
+            "description": "Start date for filtering api-errors (ISO 8601 format)"
           },
           {
             "in": "query",
-            "name": "to",
+            "name": "toDate",
             "schema": {
               "type": "string",
-              "format": "date",
-              "example": "2025-12-31"
+              "format": "date"
             },
             "required": false,
-            "description": "Filter CRM requests created on or before this date (YYYY-MM-DD)"
+            "description": "end date for filtering api-errors (ISO 8601 format)"
           },
           {
             "$ref": "#/components/parameters/paginationLimit"
@@ -1094,6 +1092,26 @@
             },
             "required": false,
             "description": "Global search across uid, mobile number, loan account number, DOB and customer data"
+          },
+          {
+            "in": "query",
+            "name": "fromDate",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": false,
+            "description": "Start date for filtering api-errors (ISO 8601 format)"
+          },
+          {
+            "in": "query",
+            "name": "toDate",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": false,
+            "description": "end date for filtering api-errors (ISO 8601 format)"
           },
           {
             "$ref": "#/components/parameters/paginationLimit"

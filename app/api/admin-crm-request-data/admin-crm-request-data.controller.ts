@@ -29,7 +29,6 @@ export class AdminCRMRequestController extends Controller {
     private async getAllCrmRequests(req: Request, res: Response): Promise<void> {
         const paginationParams: PaginationParams = Utils.extractPaginationParams(req.query, DEFAULT_ADMIN_PAGINATION_LIMIT);
         const params: AdminCRMRequestParams = req.query;
-
         const [crmData, totalCount] = await AdminCRMRequestService.getAllCrmData(params, paginationParams);
         res.json({ totalCount, data: crmData.map(p => p.getAdminCrmRequest()) });
     }

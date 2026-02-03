@@ -1,6 +1,7 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
 import { TransactionData } from "../../models/TransactionData";
+import { GeneralQueries } from "../../queries/general-queries";
 import { PaginationParams } from "../controller";
 
 export interface AdminTransactionDataParams {
@@ -63,6 +64,7 @@ export class AdminTransactionDataService {
 
     public static async getAllTransactionsForCsv(params: AdminTransactionDataParams): Promise<TransactionData[]> {
         const queryBuilder = this.getQueryBuilder(params);
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.from, toDate: params.to });
         return await queryBuilder.getMany();
     }
 }

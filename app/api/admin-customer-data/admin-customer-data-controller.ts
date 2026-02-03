@@ -13,7 +13,7 @@ export class AdminCustomerDataController extends Controller {
 
     protected createRoutes(): void {
         this.authenticatedAdminRoute(RequestMethod.GET, '/customers-list', this.getAllCustomers.bind(this), { encrypt: false });
-        this.authenticatedAdminRoute(RequestMethod.GET, '/download-csv', this.downloadCrmRequestsCsv.bind(this), { encrypt: false });
+        this.authenticatedAdminRoute(RequestMethod.GET, '/download-csv', this.downloadCustomerCsv.bind(this), { encrypt: false });
         this.authenticatedAdminRoute(RequestMethod.POST, '/details', this.customerDetails.bind(this), { encrypt: false });
     }
 
@@ -25,7 +25,7 @@ export class AdminCustomerDataController extends Controller {
         res.json({ totalCount, data: customers.map(c => c.getAdminCustomerData()) });
     }
 
-    private async downloadCrmRequestsCsv(req: Request, res: Response): Promise<void> {
+    private async downloadCustomerCsv(req: Request, res: Response): Promise<void> {
         const params: AdminCustomerDataParams = req.query;
 
         if (params.from && params.to && !DateHelper.verifyDateRange(params.from, params.to))

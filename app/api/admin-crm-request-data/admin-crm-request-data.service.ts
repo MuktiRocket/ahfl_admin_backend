@@ -1,25 +1,26 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
 import { CrmRequestData } from "../../models/CrmRequestData";
+import { GeneralQueries } from "../../queries/general-queries";
 import { PaginationParams } from "../controller";
 
 export interface AdminCRMRequestParams {
     query?: string;
-    from?: string;
-    to?: string;
+    fromDate?: string;
+    toDate?: string;
 }
 
 export class AdminCRMRequestService {
 
     private static applyCreatedAtFilter(qb: SelectQueryBuilder<CrmRequestData>, params: AdminCRMRequestParams) {
-        const from = params.from;
-        const to = params.to;
+        const fromDate = params.fromDate;
+        const toDate = params.toDate;
 
-        if (from)
-            qb.andWhere('crm_request_data.createdAt >= :from', { from: `${from} 00:00:00` });
+        if (fromDate)
+            qb.andWhere('crm_request_data.createdAt >= :from', { from: `${fromDate} 00:00:00` });
 
-        if (to)
-            qb.andWhere('crm_request_data.createdAt <= :to', { to: `${to} 23:59:59` });
+        if (toDate)
+            qb.andWhere('crm_request_data.createdAt <= :to', { to: `${toDate} 23:59:59` });
     }
 
     private static applyQueryFilter(queryBuilder: SelectQueryBuilder<CrmRequestData>, params: AdminCRMRequestParams) {
@@ -68,6 +69,7 @@ export class AdminCRMRequestService {
 
     public static async getAllCrmRequestsForCsv(params: AdminCRMRequestParams): Promise<CrmRequestData[]> {
         const queryBuilder = this.getQueryBuilder(params);
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'crm_request_data', { fromDate: params.fromDate, toDate: params.toDate });
         return await queryBuilder.getMany();
     }
 }
