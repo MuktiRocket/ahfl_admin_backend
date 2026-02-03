@@ -1,24 +1,25 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
 import { Lead } from "../../models/lead";
+import { GeneralQueries } from "../../queries/general-queries";
 import { PaginationParams } from "../controller";
 
 export interface AdminLeadDataParams {
     query?: string;
-    from?: string;
-    to?: string;
+    fromDate?: string;
+    toDate?: string;
     limit?: number;
     offset?: number;
 }
 
 export class AdminLeadService {
     private static applyCreatedAtFilter(qb: SelectQueryBuilder<Lead>, params: AdminLeadDataParams) {
-        const from = params.from;
-        const to = params.to;
-        if (from)
-            qb.andWhere('top_up_apply_loan_data.create_at >= :from', { from: `${from} 00:00:00` });
-        if (to)
-            qb.andWhere('top_up_apply_loan_data.create_at <= :to', { to: `${to} 23:59:59` });
+        const fromDate = params.fromDate;
+        const toDate = params.toDate;
+        if (fromDate)
+            qb.andWhere('top_up_apply_loan_data.create_at >= :from', { from: `${fromDate} 00:00:00` });
+        if (toDate)
+            qb.andWhere('top_up_apply_loan_data.create_at <= :to', { to: `${toDate} 23:59:59` });
     }
 
     private static applyQueryFilter(queryBuilder: SelectQueryBuilder<Lead>, params: AdminLeadDataParams) {
@@ -45,6 +46,7 @@ export class AdminLeadService {
 
     public static async getAllLeadData(params: AdminLeadDataParams, paginationParams: PaginationParams): Promise<[Lead[], number]> {
         const queryBuilder = this.getQueryBuilder(params);
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'top_up_apply_loan_data', { fromDate: params.fromDate, toDate: params.toDate }, 'created_at');
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }
 

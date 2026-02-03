@@ -919,7 +919,7 @@
           },
           {
             "in": "query",
-            "name": "from",
+            "name": "fromDate",
             "schema": {
               "type": "string",
               "format": "date"
@@ -928,7 +928,7 @@
           },
           {
             "in": "query",
-            "name": "to",
+            "name": "toDate",
             "schema": {
               "type": "string",
               "format": "date"

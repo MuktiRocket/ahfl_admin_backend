@@ -26,19 +26,19 @@ get:
         type: string
       description: Search query
     - in: query
-      name: from
+      name: fromDate
       schema:
         type: string
         format: date
       description: Start date (YYYY-MM-DD)
     - in: query
-      name: to
+      name: toDate
       schema:
         type: string
         format: date
       description: End date (YYYY-MM-DD)
   responses:
-    '200':
+    "200":
       description: List of leads
       content:
         application/json:
@@ -50,7 +50,7 @@ get:
               data:
                 type: array
                 items:
-                  $ref: '../schemas/AdminLead.yaml'
+                  $ref: "../schemas/AdminLead.yaml"
     "401":
       $ref: ../errors/unauthorized.yaml
 
