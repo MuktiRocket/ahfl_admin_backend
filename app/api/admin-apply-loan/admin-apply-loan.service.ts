@@ -1,24 +1,25 @@
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Database } from "../../database";
 import { ApplyLoanData } from "../../models/apply-loan";
+import { GeneralQueries } from "../../queries/general-queries";
 import { PaginationParams } from "../controller";
 
 export interface AdminApplyLoanParams {
     query?: string;
-    from?: string;
-    to?: string;
+    fromDate?: string;
+    toDate?: string;
     limit?: number;
     offset?: number;
 }
 
 export class AdminApplyLoanService {
     private static applyCreatedAtFilter(qb: SelectQueryBuilder<ApplyLoanData>, params: AdminApplyLoanParams) {
-        const from = params.from;
-        const to = params.to;
-        if (from)
-            qb.andWhere('apply_loan_data.create_at >= :from', { from: `${from} 00:00:00` });
-        if (to)
-            qb.andWhere('apply_loan_data.create_at <= :to', { to: `${to} 23:59:59` });
+        const fromDate = params.fromDate;
+        const toDate = params.toDate;
+        if (fromDate)
+            qb.andWhere('apply_loan_data.created_at >= :from', { from: `${fromDate} 00:00:00` });
+        if (toDate)
+            qb.andWhere('apply_loan_data.created_at <= :to', { to: `${toDate} 23:59:59` });
     }
 
     private static applyQueryFilter(queryBuilder: SelectQueryBuilder<ApplyLoanData>, params: AdminApplyLoanParams) {
@@ -49,6 +50,7 @@ export class AdminApplyLoanService {
 
     public static async getAllLoanData(params: AdminApplyLoanParams, paginationParams: PaginationParams): Promise<[ApplyLoanData[], number]> {
         const queryBuilder = this.getQueryBuilder(params);
+        GeneralQueries.addDateRangeFilter(queryBuilder, 'apply_loan_data', { fromDate: params.fromDate, toDate: params.toDate }, 'created_at');
         return await queryBuilder.skip(paginationParams.offset).take(paginationParams.limit).getManyAndCount();
     }
 

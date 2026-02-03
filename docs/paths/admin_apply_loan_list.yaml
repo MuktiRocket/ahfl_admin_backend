@@ -30,14 +30,14 @@ get:
       description: Search by first name, last name, clientId, email, mobile, lead id, source, type, category, or description
 
     - in: query
-      name: from
+      name: fromDate
       schema:
         type: string
         format: date
       description: Start date (YYYY-MM-DD)
 
     - in: query
-      name: to
+      name: toDate
       schema:
         type: string
         format: date

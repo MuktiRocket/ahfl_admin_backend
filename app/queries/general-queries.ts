@@ -23,6 +23,7 @@ export class GeneralQueries {
     * - Else -> fallback to last {period} {unit} using MySQL DATE_SUB/CURDATE()
     */
     public static addDateRangeFilter<G extends ObjectLiteral>(queryBuilder: SelectQueryBuilder<G>, alias: string, params: DateRangeParams = {}, fieldName: string = "createdAt", fallbackWindow: { period: number, unit: IntervalUnit } = { period: 6, unit: IntervalUnit.MONTH }) {
+        console.log(fieldName)
         const { period, unit } = fallbackWindow;
         if (params.fromDate && params.toDate)
             queryBuilder.andWhere(`DATE(${alias}.${fieldName}) BETWEEN :fromDate AND :toDate`, { fromDate: params.fromDate, toDate: params.toDate });

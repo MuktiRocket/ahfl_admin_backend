@@ -11,7 +11,7 @@ export class AdminApplyLoanController extends Controller {
     protected createRoutes(): void {
         this.authenticatedAdminRoute(RequestMethod.GET, '/list', this.getAllloans.bind(this), { encrypt: false });
         this.authenticatedAdminRoute(RequestMethod.GET, '/download-csv', this.downloadCsv.bind(this), { encrypt: false });
-        this.authenticatedAdminRoute(RequestMethod.POST, '/details', this.geLoanDetails.bind(this), { encrypt: false });
+        this.authenticatedAdminRoute(RequestMethod.POST, '/details', this.getLoanDetails.bind(this), { encrypt: false });
     }
 
     private async getAllloans(req: Request, res: Response): Promise<void> {
@@ -31,7 +31,7 @@ export class AdminApplyLoanController extends Controller {
         res.send(csv);
     }
 
-    private async geLoanDetails(req: Request, res: Response): Promise<void> {
+    private async getLoanDetails(req: Request, res: Response): Promise<void> {
         const { id }: { id: string } = req.body;
         const leadDetail = await AdminApplyLoanService.getLoanDetails('id', id);
         if (!leadDetail) {
