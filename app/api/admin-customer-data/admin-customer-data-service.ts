@@ -6,22 +6,22 @@ import { PaginationParams } from "../controller";
 
 export interface AdminCustomerDataParams {
     query?: string;
-    from?: string;
-    to?: string;
+    fromDate?: string;
+    toDate?: string;
     limit?: number;
     offset?: number;
 }
 
 export class AdminCustomerDataService {
     private static applyCreatedAtFilter(qb: SelectQueryBuilder<Customer>, params: AdminCustomerDataParams) {
-        const from = params.from;
-        const to = params.to;
+        const fromDate = params.fromDate;
+        const toDate = params.toDate;
 
-        if (from)
-            qb.andWhere('user_data.createdAt >= :from', { from: `${from} 00:00:00` });
+        if (fromDate)
+            qb.andWhere('user_data.created_at >= :from', { from: `${fromDate} 00:00:00` });
 
-        if (to)
-            qb.andWhere('user_data.createdAt <= :to', { to: `${to} 23:59:59` });
+        if (toDate)
+            qb.andWhere('user_data.created_at <= :to', { to: `${toDate} 23:59:59` });
     }
 
     private static applyQueryFilter(queryBuilder: SelectQueryBuilder<Customer>, params: AdminCustomerDataParams) {
@@ -61,9 +61,8 @@ export class AdminCustomerDataService {
 
     public static async getAllCustomersForCsv(params: AdminCustomerDataParams): Promise<Customer[]> {
         const queryBuilder = this.getQueryBuilder(params);
-
-        GeneralQueries.addDateRangeFilter(queryBuilder, 'user_data', { fromDate: params.from, toDate: params.to });
-
+        if (params.toDate || params.toDate)
+            GeneralQueries.addDateRangeFilter(queryBuilder, 'user_data', { fromDate: params.toDate, toDate: params.toDate }, 'created_at');
         return await queryBuilder.getMany();
     }
 }

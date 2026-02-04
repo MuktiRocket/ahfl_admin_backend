@@ -28,7 +28,7 @@ export class AdminCustomerDataController extends Controller {
     private async downloadCustomerCsv(req: Request, res: Response): Promise<void> {
         const params: AdminCustomerDataParams = req.query;
 
-        if (params.from && params.to && !DateHelper.verifyDateRange(params.from, params.to))
+        if (params.fromDate && params.toDate && !DateHelper.verifyDateRange(params.fromDate, params.toDate))
             throw new ApiError(errorTypes.invalidParameters, { message: "Date range more than 1 year is not allow." });
 
         const customers = await AdminCustomerDataService.getAllCustomersForCsv(params);
